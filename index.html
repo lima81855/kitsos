@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico: Suas plantas estão seguras?</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <main class="quiz-container">
+        
+        <!-- Intro Screen -->
+        <section id="step-intro" class="quiz-step active">
+            <div class="intro-content">
+                <h1>Suas plantas estão sofrendo e você quer testar receitas caseiras?</h1>
+                <p>Responda este quiz de 30 segundos e descubra se a sua receita com sabão vai <strong>SALVAR</strong> ou <strong>MATAR</strong> a sua planta.</p>
+                <button class="btn-primary" onclick="nextStep(1)">Começar o Diagnóstico ➔</button>
+            </div>
+        </section>
+
+        <!-- Quiz Questions -->
+        <div id="questions-container"></div>
+
+        <!-- Analyzing State -->
+        <section id="step-analyzing" class="quiz-step hidden">
+            <div class="analyzing-content">
+                <div class="spinner"></div>
+                <h2 id="analyzing-text">Analisando suas respostas...</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Screen -->
+        <section id="step-result" class="quiz-step hidden">
+            <div class="result-header alert-red">
+                🚨 ALERTA VERMELHO
+            </div>
+            <div class="result-body">
+                <h2>De acordo com suas respostas, o risco de você queimar, sufocar ou perder a sua planta por aplicação incorreta é <strong>MUITO ALTO</strong>.</h2>
+                
+                <div class="text-block">
+                    <h3>A Realidade Nua e Crua</h3>
+                    <p>A maioria das pessoas acha que o sabão verde é um "santo remédio" inofensivo porque é natural. Mas a verdade é que você pode estar tentando salvar sua planta com sabão… <strong>mas usando do jeito errado.</strong></p>
+                    <p>O sabão quebra a proteção natural da folha. Se a medida estiver forte demais, ou se o sol bater na hora errada, a folha simplesmente "frita". E se você não retirar o excesso, os poros da planta entopem e ela morre sufocada, mesmo sem praga nenhuma.</p>
+                </div>
+
+                <div class="text-block highlight-green">
+                    <h3>A Solução Segura</h3>
+                    <p>Para acabar com as pragas sem correr o risco de destruir as suas plantas, você não precisa abandonar o sabão verde. Você só precisa da <strong>medida, momento e método visual corretos.</strong></p>
+                    <p>Foi por isso que eu criei o <strong>Pode Passar Sabão na Planta? — O Kit Visual de Sabão Verde Seguro para Plantas.</strong></p>
+                </div>
+
+                <img src="assets/mockup.png" alt="Kit Visual de Sabão Verde" class="product-mockup">
+
+                <div class="benefits-list">
+                    <h4>O que você vai receber agora no seu celular:</h4>
+                    <ul>
+                        <li><span class="check">✅</span> <strong>Guia Visual de Uso Seguro:</strong> Sem textos longos, apenas o que fazer e o que não fazer.</li>
+                        <li><span class="check">✅</span> <strong>Tabela de Diluição Exata:</strong> Nunca mais erre a medida "a olho".</li>
+                        <li><span class="check">✅</span> <strong>Checklist "Pode ou Não Pode":</strong> O que fazer antes, durante e depois da aplicação.</li>
+                        <li><span class="check">✅</span> <strong>Infográfico de Erros Comuns:</strong> O que queima a folha e como evitar.</li>
+                        <li><span class="check">✅</span> <strong>Mini Mapa de Pragas:</strong> Descubra exatamente onde o sabão funciona e onde é perda de tempo.</li>
+                    </ul>
+                </div>
+
+                <div class="offer-box">
+                    <p class="anchor-price">Você poderia gastar centenas de reais comprando mudas novas porque as suas morreram queimadas, ou comprando defensivos químicos caros e tóxicos...</p>
+                    <p class="final-offer">Mas hoje, você leva o Kit Visual Completo para aplicar sabão com 100% de segurança por apenas <strong>R$ 47</strong>.</p>
+                    
+                    <a href="#" class="btn-checkout">🟢 QUERO PROTEGER MINHAS PLANTAS (R$ 47) ➔</a>
+                    <p class="guarantee">🔒 Garantia rápida de 7 dias</p>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
