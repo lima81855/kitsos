@@ -92,6 +92,7 @@ function nextStep(stepIndex) {
     hideAllSteps();
     if (stepIndex === 1) {
         // Start quiz
+        if (window.trackQuizStart) window.trackQuizStart();
         currentQuestion = 0;
         document.getElementById(`step-question-0`).classList.remove('hidden');
         document.getElementById(`step-question-0`).classList.add('active');
@@ -143,6 +144,7 @@ function startAnalyzing() {
 
 function showResult() {
     // Em vez de mostrar a caixa final, redireciona para a Página de Vendas de Low Ticket
+    if (window.trackQuizComplete) window.trackQuizComplete();
     window.location.href = 'vendas.html';
 }
 
