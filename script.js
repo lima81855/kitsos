@@ -100,6 +100,7 @@ function nextStep(stepIndex) {
 }
 
 function answerQuestion(index) {
+    if (window.trackQuizAnswer) window.trackQuizAnswer(index + 1);
     hideAllSteps();
     if (index + 1 < questions.length) {
         document.getElementById(`step-question-${index + 1}`).classList.remove('hidden');
@@ -144,8 +145,14 @@ function startAnalyzing() {
 
 function showResult() {
     // Em vez de mostrar a caixa final, redireciona para a Página de Vendas de Low Ticket
-    if (window.trackQuizComplete) window.trackQuizComplete();
-    window.location.href = 'vendas.html';
+    const target = `vendas.html${window.location.search || ''}`;
+    if (window.trackQuizComplete) {
+        window.trackQuizComplete(() => {
+            window.location.href = target;
+        });
+        return;
+    }
+    window.location.href = target;
 }
 
 // Initialize on load

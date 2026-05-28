@@ -1,5 +1,8 @@
 const META_PIXEL_ID = '1805622896407631';
 const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T';
+const PRODUCT_ID = 'kit-sos-planta-morrendo';
+const PRODUCT_VALUE = 47;
+const CURRENCY = 'BRL';
 
 function initMetaPixel() {
   if (window.fbq) return;
@@ -25,6 +28,31 @@ function initMetaPixel() {
   fbq('track', 'PageView');
 }
 
+function hasFbq() {
+  return typeof window.fbq === 'function';
+}
+
+function trackStandardEvent(eventName, payload = {}) {
+  if (!hasFbq()) return;
+  fbq('track', eventName, payload);
+}
+
+function trackCustomEvent(eventName, payload = {}) {
+  if (!hasFbq()) return;
+  fbq('trackCustom', eventName, payload);
+}
+
+function commonPayload(extra = {}) {
+  return {
+    content_name: 'Kit SOS Planta Morrendo',
+    content_ids: [PRODUCT_ID],
+    content_type: 'product',
+    value: PRODUCT_VALUE,
+    currency: CURRENCY,
+    ...extra,
+  };
+}
+
 function getPageContext() {
   const path = window.location.pathname.toLowerCase();
 
@@ -44,14 +72,10 @@ function getPageContext() {
 function trackViewContent() {
   const context = getPageContext();
 
-  fbq('track', 'ViewContent', {
+  trackStandardEvent('ViewContent', commonPayload({
     content_name: context.contentName,
-    content_ids: ['kit-sos-planta-morrendo'],
-    content_type: 'product',
-    value: 47,
-    currency: 'BRL',
     page_type: context.pageType,
-  });
+  }));
 }
 
 function buildTrackedCheckoutUrl(baseUrl) {
@@ -68,45 +92,69 @@ function buildTrackedCheckoutUrl(baseUrl) {
 }
 
 function trackCheckoutIntent() {
-  fbq('track', 'InitiateCheckout', {
-    content_name: 'Kit SOS Planta Morrendo',
-    content_ids: ['kit-sos-planta-morrendo'],
-    content_type: 'product',
-    value: 47,
-    currency: 'BRL',
+  trackStandardEvent('InitiateCheckout', commonPayload({
     num_items: 1,
-  });
+  }));
+
+  trackCustomEvent('CheckoutButtonClick', commonPayload({
+    destination: 'hotmart',
+  }));
 }
 
 function prepareCheckoutLinks() {
   document.querySelectorAll(`a[href^="${CHECKOUT_URL}"]`).forEach((link) => {
     link.href = buildTrackedCheckoutUrl(link.href);
-
-    link.addEventListener('click', () => {
-      trackCheckoutIntent();
-    });
   });
 }
 
+function interceptCheckoutClicks() {
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest && event.target.closest(`a[href^="${CHECKOUT_URL}"]`);
+    if (!link) return;
+
+    event.preventDefault();
+    trackCheckoutIntent();
+
+    const destination = buildTrackedCheckoutUrl(link.href);
+    setTimeout(() => {
+      window.location.href = destination;
+    }, 700);
+  }, true);
+}
+
 window.trackQuizStart = function () {
-  fbq('trackCustom', 'QuizStart', {
+  trackCustomEvent('QuizStart', {
     content_name: 'Kit SOS Planta Morrendo - Quiz Diagnostico',
-    content_ids: ['kit-sos-planta-morrendo'],
+    content_ids: [PRODUCT_ID],
   });
 };
 
-window.trackQuizComplete = function () {
-  fbq('track', 'Lead', {
+window.trackQuizAnswer = function (step) {
+  trackCustomEvent('QuizAnswer', {
+    content_name: 'Kit SOS Planta Morrendo - Quiz Diagnostico',
+    content_ids: [PRODUCT_ID],
+    quiz_step: step,
+  });
+};
+
+window.trackQuizComplete = function (afterTrack) {
+  trackStandardEvent('Lead', commonPayload({
     content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
-    content_ids: ['kit-sos-planta-morrendo'],
-    value: 47,
-    currency: 'BRL',
+  }));
+
+  trackStandardEvent('CompleteRegistration', commonPayload({
+    content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
+    status: 'quiz_completed',
+  }));
+
+  trackCustomEvent('QuizComplete', {
+    content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
+    content_ids: [PRODUCT_ID],
   });
 
-  fbq('trackCustom', 'QuizComplete', {
-    content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
-    content_ids: ['kit-sos-planta-morrendo'],
-  });
+  setTimeout(() => {
+    if (typeof afterTrack === 'function') afterTrack();
+  }, 700);
 };
 
 initMetaPixel();
@@ -114,4 +162,5 @@ initMetaPixel();
 document.addEventListener('DOMContentLoaded', () => {
   trackViewContent();
   prepareCheckoutLinks();
+  interceptCheckoutClicks();
 });
