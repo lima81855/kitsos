@@ -116,8 +116,8 @@ function startAnalyzing() {
 
     const texts = [
         "Analisando suas respostas...",
-        "Calculando o risco para suas plantas...",
-        "Gerando o seu diagnóstico..."
+        "Identificando o risco principal...",
+        "Abrindo sua recomendacao..."
     ];
     const textEl = document.getElementById('analyzing-text');
     const progressBar = document.getElementById('progress-bar');
@@ -130,7 +130,7 @@ function startAnalyzing() {
         if (textIndex < texts.length) {
             textEl.innerText = texts[textIndex];
         }
-    }, 1500);
+    }, 700);
 
     const progressInterval = setInterval(() => {
         progress += 2;
@@ -140,7 +140,7 @@ function startAnalyzing() {
             clearInterval(progressInterval);
             showResult();
         }
-    }, 90); // ~4.5 seconds total
+    }, 36); // ~1.8 seconds total
 }
 
 function showResult() {

@@ -72,6 +72,12 @@ h1, h2, h3, h4 {
     transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(22, 163, 74, 0.4);
 }
+.btn-primary.compact {
+    max-width: 420px;
+    padding: 18px 26px;
+    font-size: 18px;
+    margin-top: 18px;
+}
 .btn-subtext {
     display: block;
     font-size: 14px;
@@ -104,6 +110,52 @@ h1, h2, h3, h4 {
     color: var(--text-muted);
     max-width: 750px;
     margin: 0 auto 40px auto;
+}
+
+.fast-offer-card {
+    background: #ffffff;
+    border: 2px solid rgba(22, 163, 74, 0.22);
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(22, 163, 74, 0.1);
+    margin: 34px auto 0;
+    max-width: 720px;
+    padding: 26px;
+    text-align: center;
+}
+.fast-offer-eyebrow {
+    color: var(--primary-green);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+.fast-offer-card h2 {
+    color: #2f3b28;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+.fast-offer-card p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 auto;
+    max-width: 620px;
+}
+.fast-offer-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 18px;
+}
+.fast-offer-points span {
+    background: #ecfdf3;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: 999px;
+    color: #116b34;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 8px 12px;
 }
 
 /* Before / After Container */
@@ -438,10 +490,52 @@ h1, h2, h3, h4 {
 
 /* Footer */
 .footer {
-    padding: 40px 0;
+    padding: 40px 0 110px;
     background: var(--bg-main);
     color: var(--text-muted);
     border-top: 1px solid var(--card-border);
+}
+
+.sticky-cta {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid var(--card-border);
+    bottom: 0;
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.12);
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    left: 0;
+    padding: 12px 18px;
+    position: fixed;
+    right: 0;
+    z-index: 9998;
+}
+.sticky-cta div {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+.sticky-cta strong {
+    color: var(--text-main);
+    font-size: 15px;
+    font-weight: 900;
+}
+.sticky-cta span {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+.sticky-cta a {
+    background: var(--primary-green);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 900;
+    padding: 13px 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 /* Testimonial Carousel */
@@ -636,6 +730,36 @@ h1, h2, h3, h4 {
         right: 20px;
         bottom: 20px;
         max-width: none;
+    }
+    .hero {
+        padding: 34px 0 56px 0;
+    }
+    .headline {
+        font-size: 28px;
+    }
+    .subheadline {
+        font-size: 16px;
+        margin-bottom: 26px;
+    }
+    .fast-offer-card {
+        padding: 20px 16px;
+    }
+    .fast-offer-card h2 {
+        font-size: 22px;
+    }
+    .sticky-cta {
+        justify-content: space-between;
+        padding: 10px 12px;
+    }
+    .sticky-cta strong {
+        font-size: 13px;
+    }
+    .sticky-cta span {
+        font-size: 12px;
+    }
+    .sticky-cta a {
+        font-size: 13px;
+        padding: 12px 13px;
     }
 }
 

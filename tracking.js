@@ -91,34 +91,51 @@ function buildTrackedCheckoutUrl(baseUrl) {
   return target.toString();
 }
 
-function trackCheckoutIntent() {
+let lastCheckoutIntentAt = 0;
+
+function trackCheckoutIntent(source = 'checkout_cta') {
+  const now = Date.now();
+  if (now - lastCheckoutIntentAt < 1200) return;
+  lastCheckoutIntentAt = now;
+
   trackStandardEvent('InitiateCheckout', commonPayload({
     num_items: 1,
+    source,
   }));
 
   trackCustomEvent('CheckoutButtonClick', commonPayload({
     destination: 'hotmart',
+    source,
   }));
 }
 
 function prepareCheckoutLinks() {
-  document.querySelectorAll(`a[href^="${CHECKOUT_URL}"]`).forEach((link) => {
+  document.querySelectorAll('a[href*="pay.hotmart.com"]').forEach((link) => {
     link.href = buildTrackedCheckoutUrl(link.href);
+    link.setAttribute('data-checkout-link', 'true');
   });
 }
 
 function interceptCheckoutClicks() {
   document.addEventListener('click', (event) => {
-    const link = event.target.closest && event.target.closest(`a[href^="${CHECKOUT_URL}"]`);
+    const link = event.target.closest && event.target.closest('a[href*="pay.hotmart.com"], a[data-checkout-link="true"]');
     if (!link) return;
 
     event.preventDefault();
-    trackCheckoutIntent();
+    trackCheckoutIntent(link.dataset.checkoutSource || 'checkout_cta');
 
     const destination = buildTrackedCheckoutUrl(link.href);
     setTimeout(() => {
       window.location.href = destination;
-    }, 700);
+    }, 900);
+  }, true);
+}
+
+function trackCheckoutHoverIntent() {
+  document.addEventListener('pointerdown', (event) => {
+    const link = event.target.closest && event.target.closest('a[href*="pay.hotmart.com"], a[data-checkout-link="true"]');
+    if (!link) return;
+    trackCheckoutIntent(link.dataset.checkoutSource || 'checkout_pointerdown');
   }, true);
 }
 
@@ -163,4 +180,5 @@ document.addEventListener('DOMContentLoaded', () => {
   trackViewContent();
   prepareCheckoutLinks();
   interceptCheckoutClicks();
+  trackCheckoutHoverIntent();
 });
