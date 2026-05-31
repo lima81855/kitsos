@@ -6,7 +6,7 @@
     <title>Kit SOS Planta Morrendo</title>
     <link rel="stylesheet" href="vendas.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="tracking.js?v=20260528-2"></script>
+    <script src="tracking.js?v=20260530-1"></script>
 </head>
 <body>
 
@@ -44,9 +44,9 @@
             </div>
 
             <a href="https://pay.hotmart.com/I105969372T" class="btn-primary pulse-animation">
-                🟢 SIM, QUERO SALVAR MINHAS PLANTAS COM SEGURANÇA
+                QUERO APLICAR SEM QUEIMAR MINHA PLANTA
             </a>
-            <p class="btn-subtext">Acesso Imediato ao Kit SOS por R$ 47</p>
+            <p class="btn-subtext">Acesso imediato no celular | Compra segura Hotmart | Garantia de 7 dias | R$ 47</p>
         </div>
         
         <!-- Bottom divider triangle -->
@@ -130,7 +130,7 @@
     <section id="offer" class="offer-section">
         <div class="container text-center">
             
-            <h2 class="section-title" style="margin-bottom: 50px;">Veja os resultados de quem salvou suas plantas com o Kit SOS</h2>
+            <h2 class="section-title" style="margin-bottom: 50px;">Por que usar o Kit SOS antes de testar outra receita</h2>
             
             <!-- Stacking Testimonial Carousel -->
             <div class="testimonial-carousel-container">
@@ -140,27 +140,27 @@
                             <span class="tc-prev" onclick="prevCard()">&larr;</span>
                             <span class="tc-next" onclick="nextCard()">&rarr;</span>
                         </div>
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avatar 1" class="tc-avatar">
-                        <h3 class="tc-name">Marina Costa</h3>
-                        <p class="tc-desc">"Minha jiboia estava morrendo, usei o Kit SOS e em 3 dias as folhas pararam de amarelar!"</p>
+                        <div class="tc-avatar tc-icon">1</div>
+                        <h3 class="tc-name">Medida errada queima</h3>
+                        <p class="tc-desc">O kit mostra proporcao, horario e cuidados para reduzir o risco de fritar a folha.</p>
                     </div>
                     <div class="tc-card next1">
                         <div class="tc-arrows">
                             <span class="tc-prev" onclick="prevCard()">&larr;</span>
                             <span class="tc-next" onclick="nextCard()">&rarr;</span>
                         </div>
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar 2" class="tc-avatar">
-                        <h3 class="tc-name">João Marcos</h3>
-                        <p class="tc-desc">"Sempre tive medo de queimar as folhas com receitas da internet. Com o mapa de diluição, foi super seguro e fácil."</p>
+                        <div class="tc-avatar tc-icon">2</div>
+                        <h3 class="tc-name">Nem toda praga pede sabao</h3>
+                        <p class="tc-desc">Voce confere onde o sabao ajuda, onde nao resolve e quando parar.</p>
                     </div>
                     <div class="tc-card next2">
                         <div class="tc-arrows">
                             <span class="tc-prev" onclick="prevCard()">&larr;</span>
                             <span class="tc-next" onclick="nextCard()">&rarr;</span>
                         </div>
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Avatar 3" class="tc-avatar">
-                        <h3 class="tc-name">Ana Luíza</h3>
-                        <p class="tc-desc">"O checklist me ajudou muito! Descobri que estava matando minha planta afogada com sabão. Recomendo demais."</p>
+                        <div class="tc-avatar tc-icon">3</div>
+                        <h3 class="tc-name">Aplicar e deixar la sufoca</h3>
+                        <p class="tc-desc">O checklist mostra o que fazer antes, durante e depois da aplicacao.</p>
                     </div>
                 </div>
                 <div class="tc-dots" id="tc-dots">
@@ -181,7 +181,7 @@
                 </div>
                 
                 <a href="https://pay.hotmart.com/I105969372T" class="btn-primary large pulse-animation" style="width: 100%; max-width: 100%;">
-                    🟢 QUERO ACESSAR O KIT SOS AGORA ➔
+                    QUERO ACESSAR O KIT SOS AGORA
                 </a>
                 
                 <p class="btn-subtext" style="color: #666; margin-top: 15px;">🔒 Compra Segura • Garantia de 7 Dias</p>
@@ -195,18 +195,6 @@
             <p>Kit SOS Planta Morrendo © 2026 – Todos os direitos reservados</p>
         </div>
     </footer>
-    <!-- Sales Notification Popup -->
-    <div id="sales-notification" class="sales-notification">
-        <div class="sn-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        </div>
-        <div class="sn-content">
-            <p class="sn-title">Nova compra aprovada! 🌿</p>
-            <p class="sn-desc"><strong id="sn-name">Maria Silva</strong> de <span id="sn-city">São Paulo, SP</span> acabou de adquirir o Kit SOS.</p>
-            <p class="sn-time">Neste exato momento</p>
-        </div>
-    </div>
-
     <script>
         const cards = document.querySelectorAll('.tc-card');
         const dots = document.querySelectorAll('.tc-dot');
@@ -271,44 +259,6 @@
 
         updateCarousel();
 
-        // Sales Notification Logic
-        const buyers = [
-            { name: "Maria Alencar", city: "Salvador, BA" },
-            { name: "Juliana Costa", city: "São Paulo, SP" },
-            { name: "Roberto Dias", city: "Curitiba, PR" },
-            { name: "Ana Beatriz", city: "Belo Horizonte, MG" },
-            { name: "Fernanda Silva", city: "Rio de Janeiro, RJ" },
-            { name: "Carlos Eduardo", city: "Fortaleza, CE" },
-            { name: "Patrícia Lima", city: "Campinas, SP" },
-            { name: "Simone Santos", city: "Recife, PE" },
-            { name: "Luciana Alves", city: "Porto Alegre, RS" },
-            { name: "Camila Ribeiro", city: "Goiânia, GO" }
-        ];
-
-        const snElement = document.getElementById('sales-notification');
-        const snName = document.getElementById('sn-name');
-        const snCity = document.getElementById('sn-city');
-
-        function triggerNotification() {
-            // Pick random buyer
-            const randomBuyer = buyers[Math.floor(Math.random() * buyers.length)];
-            snName.innerText = randomBuyer.name;
-            snCity.innerText = randomBuyer.city;
-
-            // Show notification
-            snElement.classList.add('show');
-
-            // Hide after 6 seconds
-            setTimeout(() => {
-                snElement.classList.remove('show');
-            }, 6000);
-        }
-
-        // Wait 5 seconds for the first notification, then loop every 30 seconds
-        setTimeout(() => {
-            triggerNotification();
-            setInterval(triggerNotification, 30000);
-        }, 5000);
     </script>
 </body>
 </html>

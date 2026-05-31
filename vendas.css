@@ -526,6 +526,16 @@ h1, h2, h3, h4 {
     border-radius: 50%;
     object-fit: cover;
 }
+.tc-icon {
+    background: #e8f5e9;
+    color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    border: 2px solid rgba(22, 163, 74, 0.25);
+}
 .tc-name {
     font-size: 18px;
     font-weight: 700;
