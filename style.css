@@ -4,8 +4,9 @@
     --danger: #ef4444;
     --text-main: #1f2937;
     --text-light: #4b5563;
-    --bg-glass: rgba(255, 255, 255, 0.9);
-    --border-glass: rgba(255, 255, 255, 0.4);
+    --bg-page: #f4fbf4;
+    --bg-card: #ffffff;
+    --border-card: #dbe7dd;
 }
 
 * {
@@ -16,8 +17,7 @@
 }
 
 body {
-    background: url('assets/bg.png') no-repeat center center fixed;
-    background-size: cover;
+    background: var(--bg-page);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -29,18 +29,17 @@ body {
 .background-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(22, 163, 74, 0.2));
-    backdrop-filter: blur(6px);
+    background:
+        radial-gradient(circle at top left, rgba(22, 163, 74, 0.12), transparent 34%),
+        linear-gradient(180deg, #f8fff8 0%, #eef8ef 100%);
     z-index: -1;
 }
 
 .quiz-container {
-    background: var(--bg-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border-glass);
-    border-radius: 24px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(15, 90, 40, 0.12);
     width: 100%;
     max-width: 600px;
     min-height: 400px;
@@ -158,8 +157,8 @@ body {
 
 .option-btn {
     background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 14px;
+    border: 2px solid #dfe8e1;
+    border-radius: 12px;
     padding: 18px;
     text-align: left;
     font-size: 16px;
@@ -367,6 +366,14 @@ body {
 }
 
 @media (max-width: 600px) {
+    body {
+        align-items: flex-start;
+        padding: 12px;
+    }
+    .quiz-container {
+        border-radius: 16px;
+        margin-top: 10px;
+    }
     .quiz-step {
         padding: 30px 20px;
     }
