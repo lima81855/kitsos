@@ -112,6 +112,83 @@ h1, h2, h3, h4 {
     margin: 0 auto 40px auto;
 }
 
+.hero-offer-panel {
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid rgba(22, 163, 74, 0.22);
+    border-radius: 18px;
+    box-shadow: 0 18px 42px rgba(22, 163, 74, 0.1);
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1.4fr 0.7fr;
+    margin: 28px auto 0;
+    max-width: 780px;
+    padding: 26px;
+    text-align: left;
+}
+.hero-offer-kicker {
+    color: var(--primary-green);
+    display: block;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+.hero-offer-copy h2 {
+    color: #2f3b28;
+    font-size: 28px;
+    margin-bottom: 14px;
+}
+.hero-offer-copy ul {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+}
+.hero-offer-copy li {
+    color: #3f4638;
+    font-weight: 700;
+    padding-left: 24px;
+    position: relative;
+}
+.hero-offer-copy li::before {
+    background: var(--primary-green);
+    border-radius: 99px;
+    content: "";
+    height: 8px;
+    left: 4px;
+    position: absolute;
+    top: 0.65em;
+    width: 8px;
+}
+.hero-price-box {
+    background: #ecfdf3;
+    border: 1px solid rgba(22, 163, 74, 0.18);
+    border-radius: 16px;
+    padding: 22px;
+    text-align: center;
+}
+.hero-price-box span,
+.hero-price-box small {
+    color: #4b6652;
+    display: block;
+    font-weight: 800;
+}
+.hero-price-box strong {
+    color: var(--primary-green);
+    display: block;
+    font-size: 48px;
+    line-height: 1;
+    margin: 8px 0;
+}
+.compact-proof {
+    margin-top: 28px;
+    opacity: 0.96;
+}
+.compact-proof .ba-box {
+    width: 220px;
+}
+
 .fast-offer-card {
     background: #ffffff;
     border: 2px solid rgba(22, 163, 74, 0.22);
@@ -460,6 +537,18 @@ h1, h2, h3, h4 {
     border: 1px solid var(--card-border);
     box-shadow: 0 15px 40px rgba(0,0,0,0.05);
 }
+.quiz-result-note {
+    background: #ffffff;
+    border: 1px solid rgba(22, 163, 74, 0.22);
+    border-radius: 14px;
+    color: #3f4638;
+    margin-bottom: 22px;
+    padding: 16px;
+    text-align: left;
+}
+.quiz-result-note strong {
+    color: #1f5f35;
+}
 .offer-headline {
     font-size: 28px;
     margin-bottom: 20px;
@@ -758,6 +847,17 @@ h1, h2, h3, h4 {
     .subheadline {
         font-size: 16px;
         margin-bottom: 26px;
+    }
+    .hero-offer-panel {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    .hero-price-box strong {
+        font-size: 42px;
+    }
+    .compact-proof .ba-box {
+        max-width: 220px;
+        width: 100%;
     }
     .fast-offer-card {
         margin-top: 22px;

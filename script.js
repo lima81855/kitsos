@@ -153,7 +153,7 @@ function showResult() {
     params.set('quiz', 'complete');
     params.set('risk', 'alto');
 
-    const target = `vendas.html?${params.toString()}`;
+    const target = `vendas.html?${params.toString()}#offer`;
     if (window.trackQuizComplete) {
         window.trackQuizComplete(() => {
             window.location.href = target;
