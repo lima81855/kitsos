@@ -93,7 +93,7 @@ function buildTrackedCheckoutUrl(baseUrl) {
 
 let lastCheckoutIntentAt = 0;
 
-function trackCheckoutIntent(source = 'checkout_cta') {
+function trackCheckoutIntent(source = 'checkout_cta', options = {}) {
   const now = Date.now();
   if (now - lastCheckoutIntentAt < 1200) return;
   lastCheckoutIntentAt = now;
@@ -103,10 +103,12 @@ function trackCheckoutIntent(source = 'checkout_cta') {
     source,
   }));
 
-  trackCustomEvent('CheckoutButtonClick', commonPayload({
-    destination: 'hotmart',
-    source,
-  }));
+  if (options.includeButtonClick !== false) {
+    trackCustomEvent('CheckoutButtonClick', commonPayload({
+      destination: 'hotmart',
+      source,
+    }));
+  }
 }
 
 function prepareCheckoutLinks() {
@@ -122,7 +124,7 @@ function interceptCheckoutClicks() {
     if (!link) return;
 
     event.preventDefault();
-    trackCheckoutIntent(link.dataset.checkoutSource || 'checkout_cta');
+    trackCheckoutIntent(link.dataset.checkoutSource || 'checkout_cta', { includeButtonClick: true });
 
     const destination = buildTrackedCheckoutUrl(link.href);
     setTimeout(() => {
@@ -135,7 +137,10 @@ function trackCheckoutHoverIntent() {
   document.addEventListener('pointerdown', (event) => {
     const link = event.target.closest && event.target.closest('a[href*="pay.hotmart.com"], a[data-checkout-link="true"]');
     if (!link) return;
-    trackCheckoutIntent(link.dataset.checkoutSource || 'checkout_pointerdown');
+    trackStandardEvent('InitiateCheckout', commonPayload({
+      num_items: 1,
+      source: link.dataset.checkoutSource || 'checkout_pointerdown',
+    }));
   }, true);
 }
 
