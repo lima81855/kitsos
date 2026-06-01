@@ -1,5 +1,5 @@
 const META_PIXEL_ID = '1805622896407631';
-const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T';
+const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T?checkoutMode=10';
 const PRODUCT_ID = 'kit-sos-planta-morrendo';
 const PRODUCT_VALUE = 47;
 const CURRENCY = 'BRL';
