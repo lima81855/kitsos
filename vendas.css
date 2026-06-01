@@ -301,9 +301,77 @@ h1, h2, h3, h4 {
     z-index: 10;
 }
 
+/* Decision Section */
+.decision-section {
+    background: #ffffff;
+    padding: 82px 0 64px;
+}
+.section-eyebrow {
+    color: var(--primary-green);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.decision-section .section-title {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 760px;
+    text-align: center;
+}
+.decision-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+}
+.decision-card {
+    background: var(--bg-main);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    min-height: 230px;
+    padding: 22px;
+}
+.decision-card span {
+    align-items: center;
+    background: #ecfdf3;
+    border: 1px solid rgba(22, 163, 74, 0.18);
+    border-radius: 999px;
+    color: var(--primary-green);
+    display: flex;
+    font-size: 15px;
+    font-weight: 900;
+    height: 34px;
+    justify-content: center;
+    margin-bottom: 16px;
+    width: 34px;
+}
+.decision-card h3 {
+    color: #2f3b28;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.decision-card p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.55;
+}
+.reference-note {
+    background: #f7fff9;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: 14px;
+    color: #2f4a35;
+    font-weight: 800;
+    margin: 24px auto 0;
+    max-width: 720px;
+    padding: 18px;
+    text-align: center;
+}
+
 /* For You Section */
 .for-you-section {
-    padding: 100px 0 60px 0;
+    padding: 80px 0 60px 0;
     background: white;
 }
 .section-title {
@@ -879,6 +947,15 @@ h1, h2, h3, h4 {
     .sticky-cta a {
         font-size: 13px;
         padding: 12px 13px;
+    }
+    .decision-section {
+        padding: 64px 0 46px;
+    }
+    .decision-grid {
+        grid-template-columns: 1fr;
+    }
+    .decision-card {
+        min-height: 0;
     }
 }
 
