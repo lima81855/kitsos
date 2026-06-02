@@ -10,48 +10,52 @@
 </head>
 <body>
     <div class="top-alert-banner">
-        ALERTA: antes de jogar mais agua, adubo ou receita caseira, descubra o que sua planta esta tentando mostrar.
+        Sua planta esta murchando, amarelando ou com manchas? Pare de tentar no chute antes de piorar.
     </div>
 
     <header class="hero">
         <div class="container">
-            <div class="hero-diagnostic">
+            <div class="hero-sales">
                 <div class="hero-copy-block">
-                    <span class="hero-label">Diagnostico rapido para plantas em risco</span>
-                    <h1 class="headline">Antes de tentar salvar no impulso, descubra o que sua planta esta pedindo.</h1>
+                    <span class="hero-label">Kit visual de primeiros socorros para plantas</span>
+                    <h1 class="headline">Descubra o primeiro cuidado antes de perder sua planta de vez.</h1>
                     <p class="subheadline">
-                        O Kit SOS Plantas Morrendo ajuda voce a ler sinais visuais, evitar cuidados que pioram o problema e escolher a primeira acao com mais criterio.
+                        O Kit SOS Plantas Morrendo mostra como identificar sinais comuns e escolher a primeira acao com mais seguranca, sem jogar mais agua, adubo ou receita caseira no desespero.
                     </p>
-                    <div class="hero-actions">
+                    <div class="symptom-chips" aria-label="Sintomas comuns">
+                        <span>Folha amarela</span>
+                        <span>Planta murcha</span>
+                        <span>Manchas</span>
+                        <span>Pragas</span>
+                    </div>
+                    <div class="hero-actions single-cta">
                         <a href="https://pay.hotmart.com/I105969372T?checkoutMode=10" class="btn-primary pulse-animation" data-checkout-source="hero">
-                            RECEBER O KIT SOS AGORA
+                            Quero salvar minha planta agora
                         </a>
-                        <p class="btn-subtext">Compra unica | Acesso imediato | Garantia de 7 dias pela Hotmart</p>
+                        <p class="btn-subtext">Acesso imediato por R$ 47. Compra segura pela Hotmart com garantia de 7 dias.</p>
                     </div>
                 </div>
 
-                <div class="sos-panel">
-                    <div class="sos-panel-header">
-                        <span>Mapa SOS</span>
-                        <strong>O que fazer primeiro?</strong>
+                <div class="hero-product-panel">
+                    <div class="mockup-stage">
+                        <img src="assets/kit-mockup-novo.jpg" alt="Mockup do Kit SOS Plantas Morrendo" class="hero-kit-img">
+                        <div class="price-tag">
+                            <span>Hoje</span>
+                            <strong>R$ 47</strong>
+                        </div>
                     </div>
-                    <div class="symptom-row danger">
-                        <span>Folha amarela ou murcha</span>
-                        <strong>Nao jogue mais agua no susto</strong>
-                    </div>
-                    <div class="symptom-row warning">
-                        <span>Manchas, pontinhos ou pragas</span>
-                        <strong>Identifique antes de borrifar receita</strong>
-                    </div>
-                    <div class="symptom-row success">
-                        <span>Planta fragil depois de tentativas</span>
-                        <strong>Pause, confira e aja por etapa</strong>
-                    </div>
-                    <div class="sos-price">
-                        <span>Acesso imediato</span>
-                        <strong>R$ 47</strong>
+                    <div class="hero-proof-grid">
+                        <div><strong>Mapa visual</strong><span>Sintoma -> primeira acao</span></div>
+                        <div><strong>Checklists</strong><span>Para evitar excesso de agua e adubo</span></div>
+                        <div><strong>Acesso rapido</strong><span>Abra no celular quando precisar</span></div>
                     </div>
                 </div>
+            </div>
+
+            <div class="danger-strip" aria-label="Erros comuns">
+                <span>Evite agua demais</span>
+                <span>Evite adubo no susto</span>
+                <span>Evite mistura forte sem diagnostico</span>
             </div>
         </div>
         <div class="triangle-divider"></div>
@@ -198,12 +202,17 @@
         </div>
     </footer>
 
-    <div class="sticky-cta">
+    <div class="sticky-cta" aria-hidden="true">
         <div>
             <strong>Kit SOS Plantas Morrendo</strong>
             <span>Kit de consulta por R$ 47</span>
         </div>
         <a href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="sticky_cta">Comprar agora</a>
     </div>
+    <script>
+        window.addEventListener('scroll', function () {
+            document.body.classList.toggle('show-sticky', window.scrollY > 620);
+        });
+    </script>
 </body>
 </html>
