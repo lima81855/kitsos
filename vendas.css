@@ -1423,3 +1423,107 @@ body.show-sticky .sticky-cta {
         font-size: 28px;
     }
 }
+
+/* CRO checkout rescue - value and certainty before payment */
+.checkout-clarity {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(21, 128, 61, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 14px 30px rgba(35, 48, 27, 0.08);
+    color: #34412f;
+    display: grid;
+    gap: 4px;
+    margin: 18px 0 0;
+    max-width: 560px;
+    padding: 15px 17px;
+}
+
+.checkout-clarity strong {
+    color: var(--deep-green);
+    font-size: 15px;
+    font-weight: 900;
+}
+
+.checkout-clarity span {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.value-stack-card {
+    background: #ffffff;
+    border: 1px solid rgba(21, 128, 61, 0.18);
+    border-radius: 20px;
+    box-shadow: 0 18px 42px rgba(35, 48, 27, 0.08);
+    display: grid;
+    gap: 12px;
+    margin: 0 auto 34px;
+    max-width: 760px;
+    padding: 22px;
+    text-align: left;
+}
+
+.value-stack-card div {
+    background: #f6fff0;
+    border: 1px solid rgba(21, 128, 61, 0.13);
+    border-radius: 14px;
+    display: grid;
+    gap: 4px;
+    padding: 16px;
+}
+
+.value-stack-card strong {
+    color: var(--deep-green);
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.value-stack-card span {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.checkout-objection-box {
+    background: #ffffff;
+    border: 1px solid rgba(21, 128, 61, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(35, 48, 27, 0.06);
+    margin: 24px 0;
+    padding: 22px;
+    text-align: left;
+}
+
+.checkout-objection-box h3 {
+    color: var(--deep-green);
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.checkout-objection-box ul {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+}
+
+.checkout-objection-box li {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.45;
+    padding-left: 24px;
+    position: relative;
+}
+
+.checkout-objection-box li::before {
+    background: var(--primary-green);
+    border-radius: 50%;
+    content: "";
+    height: 9px;
+    left: 4px;
+    position: absolute;
+    top: 0.55em;
+    width: 9px;
+}
