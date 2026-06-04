@@ -106,13 +106,17 @@ function getFbp() {
 }
 
 function getFbc() {
-  const cookieValue = getCookie('_fbc');
-  if (cookieValue) return cookieValue;
-
   const fbclid = new URLSearchParams(window.location.search).get('fbclid');
-  if (!fbclid) return '';
+  const cookieValue = getCookie('_fbc');
+  if (!fbclid) return cookieValue || '';
 
-  return 'fb.1.' + Date.now() + '.' + fbclid;
+  if (cookieValue && cookieValue.endsWith('.' + fbclid)) {
+    return cookieValue;
+  }
+
+  const fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+  document.cookie = '_fbc=' + encodeURIComponent(fbc) + '; path=/; max-age=7776000; SameSite=Lax; Secure';
+  return fbc;
 }
 
 function buildVisitorId() {
@@ -229,6 +233,16 @@ function buildTrackedCheckoutUrl(baseUrl) {
 
   if (!target.searchParams.has('external_id')) {
     target.searchParams.set('external_id', getOrCreateExternalId());
+  }
+
+  const fbp = getFbp();
+  if (fbp && !target.searchParams.has('fbp')) {
+    target.searchParams.set('fbp', fbp);
+  }
+
+  const fbc = getFbc();
+  if (fbc && !target.searchParams.has('fbc')) {
+    target.searchParams.set('fbc', fbc);
   }
 
   return target.toString();
