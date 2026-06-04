@@ -5,6 +5,8 @@ const PRODUCT_ID = '7801051';
 const PRODUCT_VALUE = 47;
 const CURRENCY = 'BRL';
 const STANDARD_EVENT_DEDUPE_MS = 1500;
+const EXTERNAL_ID_KEY = 'kitsos_external_id';
+const EXTERNAL_ID_COOKIE = '_kitsos_eid';
 const recentStandardEvents = new Map();
 
 function initMetaPixel() {
@@ -27,7 +29,9 @@ function initMetaPixel() {
     s.parentNode.insertBefore(t, s);
   })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-  fbq('init', META_PIXEL_ID);
+  fbq('init', META_PIXEL_ID, {
+    external_id: getOrCreateExternalId(),
+  });
   trackStandardEvent('PageView', {
     content_name: 'Kit SOS Planta Morrendo',
     content_ids: [PRODUCT_ID],
@@ -111,6 +115,36 @@ function getFbc() {
   return 'fb.1.' + Date.now() + '.' + fbclid;
 }
 
+function buildVisitorId() {
+  const randomPart = window.crypto && window.crypto.randomUUID
+    ? window.crypto.randomUUID()
+    : Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+  return 'kitsos-visitor-' + randomPart;
+}
+
+function getOrCreateExternalId() {
+  let externalId = getCookie(EXTERNAL_ID_COOKIE);
+
+  try {
+    externalId = externalId || window.localStorage.getItem(EXTERNAL_ID_KEY) || '';
+  } catch (_) {
+    externalId = externalId || '';
+  }
+
+  if (!externalId) {
+    externalId = buildVisitorId();
+  }
+
+  try {
+    window.localStorage.setItem(EXTERNAL_ID_KEY, externalId);
+  } catch (_) {}
+
+  document.cookie = EXTERNAL_ID_COOKIE + '=' + encodeURIComponent(externalId) + '; path=/; max-age=15552000; SameSite=Lax; Secure';
+
+  return externalId;
+}
+
 function buildEventId(eventName) {
   const randomPart = window.crypto && window.crypto.randomUUID
     ? window.crypto.randomUUID()
@@ -137,6 +171,7 @@ function sendServerEvent(eventName, payload, eventId) {
     eventName,
     eventId,
     eventSourceUrl: window.location.href,
+    externalId: getOrCreateExternalId(),
     fbp: getFbp(),
     fbc: getFbc(),
     testEventCode: new URLSearchParams(window.location.search).get('test_event_code') || undefined,
@@ -191,6 +226,10 @@ function buildTrackedCheckoutUrl(baseUrl) {
       target.searchParams.set(key, value);
     }
   });
+
+  if (!target.searchParams.has('external_id')) {
+    target.searchParams.set('external_id', getOrCreateExternalId());
+  }
 
   return target.toString();
 }
