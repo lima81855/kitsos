@@ -1,6 +1,7 @@
 const META_PIXEL_ID = '1805622896407631';
+const TRACKING_API_URL = 'https://setoe-tracking-production.up.railway.app/api/meta/events';
 const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T?checkoutMode=10';
-const PRODUCT_ID = 'kit-sos-planta-morrendo';
+const PRODUCT_ID = '7801051';
 const PRODUCT_VALUE = 47;
 const CURRENCY = 'BRL';
 
@@ -25,7 +26,11 @@ function initMetaPixel() {
   })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
   fbq('init', META_PIXEL_ID);
-  fbq('track', 'PageView');
+  trackStandardEvent('PageView', {
+    content_name: 'Kit SOS Planta Morrendo',
+    content_ids: [PRODUCT_ID],
+    content_type: 'product',
+  });
 }
 
 function hasFbq() {
@@ -34,7 +39,9 @@ function hasFbq() {
 
 function trackStandardEvent(eventName, payload = {}) {
   if (!hasFbq()) return;
-  fbq('track', eventName, payload);
+  const eventId = buildEventId(eventName);
+  fbq('track', eventName, payload, { eventID: eventId });
+  sendServerEvent(eventName, payload, eventId);
 }
 
 function trackCustomEvent(eventName, payload = {}) {
@@ -51,6 +58,74 @@ function commonPayload(extra = {}) {
     currency: CURRENCY,
     ...extra,
   };
+}
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.$?*|{}()[\]\\/+^]/g, '\\$&') + '=([^;]*)'));
+  return match ? decodeURIComponent(match[1]) : '';
+}
+
+function getFbp() {
+  return getCookie('_fbp');
+}
+
+function getFbc() {
+  const cookieValue = getCookie('_fbc');
+  if (cookieValue) return cookieValue;
+
+  const fbclid = new URLSearchParams(window.location.search).get('fbclid');
+  if (!fbclid) return '';
+
+  return 'fb.1.' + Date.now() + '.' + fbclid;
+}
+
+function buildEventId(eventName) {
+  const randomPart = window.crypto && window.crypto.randomUUID
+    ? window.crypto.randomUUID()
+    : Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+  return 'kitsos-' + eventName + '-' + randomPart;
+}
+
+function normalizeServerPayload(payload) {
+  return {
+    value: typeof payload.value === 'number' ? payload.value : undefined,
+    currency: payload.currency || CURRENCY,
+    contentName: payload.content_name || payload.contentName || 'Kit SOS Planta Morrendo',
+    contentIds: Array.isArray(payload.content_ids) ? payload.content_ids : [PRODUCT_ID],
+  };
+}
+
+function sendServerEvent(eventName, payload, eventId) {
+  const allowedEvents = ['PageView', 'ViewContent', 'InitiateCheckout', 'Lead', 'CompleteRegistration'];
+  if (!allowedEvents.includes(eventName)) return;
+
+  const serverPayload = normalizeServerPayload(payload);
+  const body = {
+    eventName,
+    eventId,
+    eventSourceUrl: window.location.href,
+    fbp: getFbp(),
+    fbc: getFbc(),
+    value: serverPayload.value,
+    currency: serverPayload.currency,
+    contentName: serverPayload.contentName,
+    contentIds: serverPayload.contentIds,
+  };
+
+  const serialized = JSON.stringify(body);
+
+  if (navigator.sendBeacon) {
+    const sent = navigator.sendBeacon(TRACKING_API_URL, new Blob([serialized], { type: 'application/json' }));
+    if (sent) return;
+  }
+
+  fetch(TRACKING_API_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: serialized,
+    keepalive: true,
+  }).catch(() => {});
 }
 
 function getPageContext() {
