@@ -116,13 +116,9 @@ function sendServerEvent(eventName, payload, eventId) {
 
   const serialized = JSON.stringify(body);
 
-  if (navigator.sendBeacon) {
-    const sent = navigator.sendBeacon(TRACKING_API_URL, new Blob([serialized], { type: 'application/json' }));
-    if (sent) return;
-  }
-
   fetch(TRACKING_API_URL, {
     method: 'POST',
+    mode: 'cors',
     headers: { 'content-type': 'application/json' },
     body: serialized,
     keepalive: true,
