@@ -4,6 +4,8 @@ const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T?checkoutMode=10';
 const PRODUCT_ID = '7801051';
 const PRODUCT_VALUE = 47;
 const CURRENCY = 'BRL';
+const STANDARD_EVENT_DEDUPE_MS = 1500;
+const recentStandardEvents = new Map();
 
 function initMetaPixel() {
   if (window.fbq) return;
@@ -39,6 +41,7 @@ function hasFbq() {
 
 function trackStandardEvent(eventName, payload = {}) {
   if (!hasFbq()) return;
+  if (wasStandardEventRecentlyTracked(eventName, payload)) return;
   const eventId = buildEventId(eventName);
   fbq('track', eventName, payload, { eventID: eventId });
   sendServerEvent(eventName, payload, eventId);
@@ -58,6 +61,35 @@ function commonPayload(extra = {}) {
     currency: CURRENCY,
     ...extra,
   };
+}
+
+function standardEventKey(eventName, payload) {
+  return [
+    eventName,
+    payload.content_name || '',
+    payload.source || '',
+    payload.status || '',
+  ].join('|');
+}
+
+function wasStandardEventRecentlyTracked(eventName, payload) {
+  const now = Date.now();
+  const key = standardEventKey(eventName, payload);
+  const lastTrackedAt = recentStandardEvents.get(key) || 0;
+
+  if (now - lastTrackedAt < STANDARD_EVENT_DEDUPE_MS) {
+    return true;
+  }
+
+  recentStandardEvents.set(key, now);
+  return false;
+}
+
+function trackCheckoutButtonClick(source) {
+  trackCustomEvent('CheckoutButtonClick', commonPayload({
+    destination: 'hotmart',
+    source,
+  }));
 }
 
 function getCookie(name) {
@@ -167,19 +199,18 @@ let lastCheckoutIntentAt = 0;
 
 function trackCheckoutIntent(source = 'checkout_cta', options = {}) {
   const now = Date.now();
-  if (now - lastCheckoutIntentAt < 1200) return;
-  lastCheckoutIntentAt = now;
+  const shouldTrackStandardIntent = now - lastCheckoutIntentAt >= STANDARD_EVENT_DEDUPE_MS;
 
-  trackStandardEvent('InitiateCheckout', commonPayload({
-    num_items: 1,
-    source,
-  }));
-
-  if (options.includeButtonClick !== false) {
-    trackCustomEvent('CheckoutButtonClick', commonPayload({
-      destination: 'hotmart',
+  if (shouldTrackStandardIntent) {
+    lastCheckoutIntentAt = now;
+    trackStandardEvent('InitiateCheckout', commonPayload({
+      num_items: 1,
       source,
     }));
+  }
+
+  if (options.includeButtonClick !== false) {
+    trackCheckoutButtonClick(source);
   }
 }
 
@@ -209,10 +240,7 @@ function trackCheckoutHoverIntent() {
   document.addEventListener('pointerdown', (event) => {
     const link = event.target.closest && event.target.closest('a[href*="pay.hotmart.com"], a[data-checkout-link="true"]');
     if (!link) return;
-    trackStandardEvent('InitiateCheckout', commonPayload({
-      num_items: 1,
-      source: link.dataset.checkoutSource || 'checkout_pointerdown',
-    }));
+    trackCheckoutIntent(link.dataset.checkoutSource || 'checkout_pointerdown', { includeButtonClick: false });
   }, true);
 }
 
