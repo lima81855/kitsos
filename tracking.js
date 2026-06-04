@@ -107,6 +107,7 @@ function sendServerEvent(eventName, payload, eventId) {
     eventSourceUrl: window.location.href,
     fbp: getFbp(),
     fbc: getFbc(),
+    testEventCode: new URLSearchParams(window.location.search).get('test_event_code') || undefined,
     value: serverPayload.value,
     currency: serverPayload.currency,
     contentName: serverPayload.contentName,
