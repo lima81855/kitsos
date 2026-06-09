@@ -2,7 +2,7 @@ const META_PIXEL_ID = '1805622896407631';
 const TRACKING_API_URL = 'https://setoe-tracking-production.up.railway.app/api/meta/events';
 const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T?checkoutMode=10';
 const PRODUCT_ID = '7801051';
-const PRODUCT_VALUE = 47;
+const PRODUCT_VALUE = 37;
 const CURRENCY = 'BRL';
 const STANDARD_EVENT_DEDUPE_MS = 1500;
 const EXTERNAL_ID_KEY = 'kitsos_external_id';
@@ -33,7 +33,7 @@ function initMetaPixel() {
     external_id: getOrCreateExternalId(),
   });
   trackStandardEvent('PageView', {
-    content_name: 'Kit SOS Planta Morrendo',
+    content_name: 'Kit SOS Plantas Morrendo',
     content_ids: [PRODUCT_ID],
     content_type: 'product',
   });
@@ -58,7 +58,7 @@ function trackCustomEvent(eventName, payload = {}) {
 
 function commonPayload(extra = {}) {
   return {
-    content_name: 'Kit SOS Planta Morrendo',
+    content_name: 'Kit SOS Plantas Morrendo',
     content_ids: [PRODUCT_ID],
     content_type: 'product',
     value: PRODUCT_VALUE,
@@ -161,7 +161,7 @@ function normalizeServerPayload(payload) {
   return {
     value: typeof payload.value === 'number' ? payload.value : undefined,
     currency: payload.currency || CURRENCY,
-    contentName: payload.content_name || payload.contentName || 'Kit SOS Planta Morrendo',
+    contentName: payload.content_name || payload.contentName || 'Kit SOS Plantas Morrendo',
     contentIds: Array.isArray(payload.content_ids) ? payload.content_ids : [PRODUCT_ID],
   };
 }
@@ -199,16 +199,16 @@ function sendServerEvent(eventName, payload, eventId) {
 function getPageContext() {
   const path = window.location.pathname.toLowerCase();
 
-  if (path.includes('vendas')) {
+  if (path.includes('vendas') || path === '/' || path.endsWith('/index.html')) {
     return {
       pageType: 'sales_page',
-      contentName: 'Kit SOS Planta Morrendo - Pagina de Venda',
+      contentName: 'Kit SOS Plantas Morrendo - Pagina de Venda',
     };
   }
 
   return {
     pageType: 'quiz',
-    contentName: 'Kit SOS Planta Morrendo - Quiz Diagnostico',
+    contentName: 'Kit SOS Plantas Morrendo - Quiz Diagnostico',
   };
 }
 
@@ -299,14 +299,14 @@ function trackCheckoutHoverIntent() {
 
 window.trackQuizStart = function () {
   trackCustomEvent('QuizStart', {
-    content_name: 'Kit SOS Planta Morrendo - Quiz Diagnostico',
+    content_name: 'Kit SOS Plantas Morrendo - Quiz Diagnostico',
     content_ids: [PRODUCT_ID],
   });
 };
 
 window.trackQuizAnswer = function (step) {
   trackCustomEvent('QuizAnswer', {
-    content_name: 'Kit SOS Planta Morrendo - Quiz Diagnostico',
+    content_name: 'Kit SOS Plantas Morrendo - Quiz Diagnostico',
     content_ids: [PRODUCT_ID],
     quiz_step: step,
   });
@@ -314,16 +314,16 @@ window.trackQuizAnswer = function (step) {
 
 window.trackQuizComplete = function (afterTrack) {
   trackStandardEvent('Lead', commonPayload({
-    content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
+    content_name: 'Kit SOS Plantas Morrendo - Quiz Concluido',
   }));
 
   trackStandardEvent('CompleteRegistration', commonPayload({
-    content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
+    content_name: 'Kit SOS Plantas Morrendo - Quiz Concluido',
     status: 'quiz_completed',
   }));
 
   trackCustomEvent('QuizComplete', {
-    content_name: 'Kit SOS Planta Morrendo - Quiz Concluido',
+    content_name: 'Kit SOS Plantas Morrendo - Quiz Concluido',
     content_ids: [PRODUCT_ID],
   });
 

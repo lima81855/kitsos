@@ -1,218 +1,1382 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kit SOS Plantas Morrendo</title>
-    <link rel="stylesheet" href="vendas.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="tracking.js?v=20260601-1"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kit SOS Plantas Morrendo | Diagnóstico SOS de 2 minutos</title>
+  <meta name="description" content="Descubra o primeiro cuidado antes de piorar sua planta." />
+  <style>
+    :root {
+      --green-950: #0c2f1d;
+      --green-900: #123d27;
+      --green-700: #177245;
+      --green-500: #22a35d;
+      --lime: #b7ff68;
+      --cream: #fff8e8;
+      --paper: #fffdf6;
+      --sand: #eadcc4;
+      --red: #d9362b;
+      --yellow: #f7c948;
+      --ink: #18231b;
+      --muted: #657166;
+      --line: rgba(12, 47, 29, .16);
+      --shadow: 0 22px 70px rgba(12, 47, 29, .16);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .ticker {
+      overflow: hidden;
+      background: var(--red);
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 46px;
+      min-width: 200%;
+      padding: 12px 0;
+      animation: ticker 25s linear infinite;
+    }
+
+    .ticker span { padding-left: 42px; }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(183, 255, 104, .20), transparent 28%),
+        linear-gradient(135deg, #eef8e9 0%, #fff9ec 45%, #f4efe3 100%);
+      padding: 34px 0 54px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: center;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .hero-copy,
+    .hero-action {
+      width: min(820px, 100%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--green-900);
+      border: 1px solid rgba(18, 61, 39, .22);
+      background: rgba(255, 255, 255, .74);
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-size: .8rem;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      margin: 18px 0 18px;
+      max-width: 820px;
+      font-size: clamp(2.45rem, 6vw, 5rem);
+      line-height: .96;
+      letter-spacing: 0;
+      color: var(--green-950);
+    }
+
+    .highlight {
+      display: inline;
+      background: linear-gradient(transparent 58%, rgba(183, 255, 104, .72) 58%);
+    }
+
+    .hero-lead {
+      color: #3d4a40;
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      line-height: 1.48;
+      max-width: 720px;
+      margin: 0 auto 22px;
+    }
+
+    .hero-question {
+      border: 1px solid rgba(18, 61, 39, .16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .78);
+      box-shadow: 0 14px 44px rgba(18, 61, 39, .10);
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+
+    .hero-question strong {
+      display: block;
+      color: var(--green-900);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      font-size: .86rem;
+      letter-spacing: .05em;
+    }
+
+    .diagnostic-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .diagnostic-tabs button {
+      min-height: 48px;
+      border: 1px solid rgba(18, 61, 39, .18);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--green-900);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+
+    .diagnostic-tabs button:hover { transform: translateY(-2px); }
+    .diagnostic-tabs button.active {
+      background: var(--green-900);
+      color: #fff;
+    }
+
+    .diagnostic-answer {
+      margin: 0;
+      color: #435148;
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .mobile-diagnostic-answer {
+      display: none;
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--green-500), var(--green-700));
+      color: #fff;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .02em;
+      box-shadow: 0 16px 34px rgba(34, 163, 93, .25);
+      cursor: pointer;
+      transform: translateY(0);
+      transition:
+        transform .18s ease,
+        filter .18s ease,
+        box-shadow .18s ease;
+      animation: ctaPulse 2.8s ease-in-out infinite;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: -35% -55%;
+      z-index: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 35%,
+        rgba(255, 255, 255, .18) 46%,
+        rgba(255, 255, 255, .42) 50%,
+        rgba(255, 255, 255, .18) 54%,
+        transparent 65%
+      );
+      transform: translateX(-80%) rotate(8deg);
+      animation: ctaShine 3.4s linear infinite;
+      pointer-events: none;
+    }
+
+    .btn::after {
+      content: "→";
+      position: relative;
+      z-index: 1;
+      font-size: 1.2em;
+      line-height: 1;
+      transform: translateX(0);
+      transition: transform .18s ease;
+    }
+
+    .btn:hover {
+      filter: brightness(1.06);
+      transform: translateY(-2px);
+      box-shadow: 0 22px 42px rgba(34, 163, 93, .34);
+    }
+
+    .btn:hover::after {
+      transform: translateX(4px);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(.98);
+      box-shadow: 0 12px 24px rgba(34, 163, 93, .24);
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% {
+        box-shadow: 0 16px 34px rgba(34, 163, 93, .25);
+      }
+      50% {
+        box-shadow: 0 18px 42px rgba(183, 255, 104, .32);
+      }
+    }
+
+    @keyframes ctaShine {
+      0% { transform: translateX(-85%) rotate(8deg); }
+      48%, 100% { transform: translateX(85%) rotate(8deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn,
+      .btn::before {
+        animation: none;
+      }
+    }
+
+    .price-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 58px;
+      padding: 0 18px;
+      border: 1px solid rgba(18, 61, 39, .16);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--green-900);
+      font-weight: 950;
+    }
+
+    .price-pill span {
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .trust-line {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 14px;
+      color: #5a675e;
+      font-weight: 780;
+      font-size: .95rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: min(940px, 100%);
+      display: grid;
+      place-items: center;
+    }
+
+    .mockup-placeholder {
+      width: 100%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      filter: drop-shadow(0 28px 46px rgba(12, 47, 29, .24));
+    }
+
+    .hero-mockup-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .floating-chip {
+      position: absolute;
+      width: min(220px, 42vw);
+      padding: 14px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .94);
+      border: 1px solid rgba(18, 61, 39, .14);
+      box-shadow: 0 14px 40px rgba(18, 61, 39, .12);
+      color: var(--green-900);
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .chip-1 { top: 36px; left: 0; }
+    .chip-2 { top: 90px; right: 0; }
+    .chip-3 { bottom: 68px; left: 20px; }
+    .chip-4 { bottom: 28px; right: 12px; }
+
+    section { padding: 70px 0; }
+
+    .section-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 36px;
+    }
+
+    .tag {
+      color: var(--green-700);
+      text-transform: uppercase;
+      font-weight: 1000;
+      letter-spacing: .08em;
+      font-size: .78rem;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4.4vw, 4rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+      color: var(--green-950);
+      margin-bottom: 14px;
+    }
+
+    .section-head p {
+      color: #4d5b52;
+      line-height: 1.55;
+      font-size: 1.08rem;
+    }
+
+    .proof {
+      background: #fff;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .image-placeholder,
+    .mini-placeholder {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+      border: 2px dashed rgba(18, 61, 39, .28);
+      border-radius: var(--radius);
+      background: #f8fbf3;
+      color: var(--green-900);
+      text-align: center;
+      padding: 18px;
+      font-weight: 950;
+      line-height: 1.25;
+    }
+
+    .image-placeholder.has-image,
+    .mini-placeholder.has-image {
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(18, 61, 39, .10);
+    }
+
+    .image-placeholder.has-image {
+      aspect-ratio: 16 / 10;
+    }
+
+    .mini-placeholder.has-image {
+      aspect-ratio: 16 / 10;
+    }
+
+    .image-placeholder.has-image img,
+    .mini-placeholder.has-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #fff;
+    }
+
+    .mini-placeholder { min-height: 110px; }
+
+    .pain {
+      background:
+        linear-gradient(180deg, var(--cream), #fff);
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: .86fr 1.14fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .pain-card {
+      border-radius: var(--radius);
+      background: var(--green-950);
+      color: #fff;
+      padding: 28px;
+      position: sticky;
+      top: 22px;
+    }
+
+    .pain-card h2 { color: #fff; }
+    .pain-card p {
+      color: rgba(255, 255, 255, .82);
+      line-height: 1.55;
+    }
+
+    .thoughts {
+      display: grid;
+      gap: 12px;
+    }
+
+    .thought {
+      border: 1px solid rgba(18, 61, 39, .14);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 12px 36px rgba(18, 61, 39, .08);
+    }
+
+    .thought strong {
+      display: block;
+      color: var(--green-900);
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+    }
+
+    .thought p {
+      margin: 0;
+      color: #4b584f;
+      line-height: 1.45;
+    }
+
+    .yes-block {
+      background: var(--green-900);
+      color: #fff;
+      text-align: center;
+    }
+
+    .yes-block h2 { color: #fff; }
+    .yes-block p {
+      color: rgba(255, 255, 255, .84);
+      max-width: 760px;
+      margin: 0 auto 24px;
+      line-height: 1.55;
+      font-size: 1.1rem;
+    }
+
+    .benefits {
+      background: #fff;
+    }
+
+    .benefit-grid,
+    .deliver-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .benefit,
+    .deliver,
+    .bonus {
+      border: 1px solid rgba(18, 61, 39, .14);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 14px 34px rgba(18, 61, 39, .08);
+      overflow: hidden;
+    }
+
+    .benefit .body,
+    .deliver .body,
+    .bonus .body {
+      padding: 18px;
+    }
+
+    .benefit h3,
+    .deliver h3,
+    .bonus h3 {
+      color: var(--green-900);
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+
+    .benefit p,
+    .deliver p,
+    .bonus p {
+      color: #4d5a51;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .deliverables {
+      background: linear-gradient(180deg, #f5fbf1, #fff);
+    }
+
+    .more {
+      background: var(--green-950);
+      color: #fff;
+    }
+
+    .more h2 { color: #fff; }
+    .more .section-head p { color: rgba(255, 255, 255, .82); }
+
+    .bonus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .bonus {
+      background: rgba(255, 255, 255, .96);
+    }
+
+    .who {
+      background: #fff;
+    }
+
+    .who-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 930px;
+      margin: 0 auto;
+    }
+
+    .who-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      border: 1px solid rgba(18, 61, 39, .14);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: #fff;
+      color: #405047;
+      font-weight: 760;
+      line-height: 1.4;
+    }
+
+    .who-item::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--green-500);
+      margin-top: 4px;
+      flex: 0 0 auto;
+    }
+
+    .offer {
+      background:
+        radial-gradient(circle at 70% 20%, rgba(183, 255, 104, .16), transparent 26%),
+        linear-gradient(135deg, var(--green-950), #071b12);
+      color: #fff;
+    }
+
+    .offer-box {
+      display: grid;
+      grid-template-columns: 1fr .92fr;
+      gap: 26px;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .06);
+      padding: 28px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, .24);
+    }
+
+    .offer h2 { color: #fff; }
+
+    .value-stack {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .value-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
+      color: rgba(255, 255, 255, .88);
+      font-weight: 780;
+    }
+
+    .offer-card {
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .offer-card .image-placeholder.has-image {
+      aspect-ratio: 1511 / 1041;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .approved {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--lime);
+      color: var(--green-950);
+      text-transform: uppercase;
+      font-weight: 1000;
+      letter-spacing: .04em;
+      margin-bottom: 14px;
+    }
+
+    .price {
+      color: var(--green-950);
+      margin: 16px 0;
+    }
+
+    .price small {
+      display: block;
+      color: #6a756d;
+      font-weight: 850;
+      text-decoration: line-through;
+    }
+
+    .price strong {
+      display: block;
+      font-size: clamp(3rem, 8vw, 5.2rem);
+      line-height: .9;
+    }
+
+    .access {
+      background: #fff;
+    }
+
+    .access-grid,
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .access-card,
+    .choice-card {
+      border: 1px solid rgba(18, 61, 39, .14);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 22px;
+      min-height: 180px;
+      box-shadow: 0 12px 34px rgba(18, 61, 39, .07);
+    }
+
+    .access-card .num {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-900);
+      color: #fff;
+      font-weight: 1000;
+      margin-bottom: 14px;
+    }
+
+    .access-card h3,
+    .choice-card h3 {
+      color: var(--green-900);
+      margin-bottom: 8px;
+    }
+
+    .access-card p,
+    .choice-card p {
+      color: #4d5a51;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .choices {
+      background: var(--cream);
+    }
+
+    .choice-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .choice-card.bad {
+      border-color: rgba(217, 54, 43, .22);
+      background: #fff8f6;
+    }
+
+    .choice-card.good {
+      border-color: rgba(34, 163, 93, .26);
+      background: #f3fff6;
+    }
+
+    .footer-note {
+      padding: 34px 0 92px;
+      color: #59665e;
+      background: #fff;
+      font-size: .88rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .sticky {
+      position: fixed;
+      z-index: 20;
+      left: 50%;
+      bottom: 14px;
+      width: min(760px, calc(100% - 24px));
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(18, 61, 39, .16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 18px 48px rgba(12, 47, 29, .18);
+      backdrop-filter: blur(10px);
+    }
+
+    .sticky strong {
+      display: block;
+      color: var(--green-900);
+      margin-bottom: 2px;
+    }
+
+    .sticky small {
+      color: #5d695f;
+      font-weight: 760;
+    }
+
+    .sticky .btn { min-height: 48px; padding: 0 18px; }
+
+    .purchase-pop {
+      position: fixed;
+      z-index: 21;
+      left: 18px;
+      bottom: 102px;
+      width: min(360px, calc(100% - 36px));
+      display: grid;
+      grid-template-columns: 46px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(18, 61, 39, .14);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 18px 48px rgba(12, 47, 29, .18);
+      backdrop-filter: blur(12px);
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform .28s ease, opacity .28s ease;
+    }
+
+    .purchase-pop.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .purchase-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-500), var(--green-700));
+      color: #fff;
+      font-weight: 1000;
+      box-shadow: 0 10px 24px rgba(34, 163, 93, .24);
+    }
+
+    .purchase-copy strong {
+      display: block;
+      color: var(--green-950);
+      line-height: 1.15;
+      margin-bottom: 3px;
+    }
+
+    .purchase-copy span {
+      display: block;
+      color: #5c685f;
+      font-size: .88rem;
+      font-weight: 750;
+      line-height: 1.25;
+    }
+
+    .purchase-close {
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: #eef5ea;
+      color: var(--green-900);
+      cursor: pointer;
+      font-weight: 1000;
+    }
+
+    @media (max-width: 940px) {
+      .pain-grid,
+      .offer-box {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-grid,
+      .benefit-grid,
+      .deliver-grid,
+      .access-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 22px, 1120px); }
+      .hero { padding-top: 26px; }
+      h1 { font-size: clamp(2.5rem, 12vw, 4.1rem); }
+      .diagnostic-tabs,
+      .bonus-grid,
+      .who-list,
+      .choice-grid {
+        grid-template-columns: 1fr;
+      }
+      .diagnostic-tabs {
+        margin-bottom: 0;
+      }
+      .diagnostic-answer {
+        display: none;
+      }
+      .mobile-diagnostic-answer {
+        display: none;
+        margin: -2px 0 4px;
+        padding: 12px;
+        border: 1px solid rgba(18, 61, 39, .12);
+        border-radius: var(--radius);
+        background: #f6fbf2;
+        color: #435148;
+        line-height: 1.45;
+        font-weight: 650;
+        text-align: left;
+      }
+      .mobile-diagnostic-answer.active {
+        display: block;
+      }
+      .cta-row { display: grid; }
+      .btn, .price-pill { width: 100%; }
+      .mockup-placeholder {
+        width: min(100%, 420px);
+      }
+      .floating-chip {
+        position: absolute;
+        width: min(168px, 45vw);
+        padding: 10px;
+        font-size: .78rem;
+      }
+      .chip-1 { top: 24px; left: 0; }
+      .chip-2 { top: 78px; right: 0; }
+      .chip-3 { bottom: 86px; left: 4px; }
+      .chip-4 { bottom: 28px; right: 0; }
+      section { padding: 54px 0; }
+      .sticky { grid-template-columns: 1fr; }
+      .purchase-pop {
+        left: 12px;
+        bottom: 142px;
+        width: calc(100% - 24px);
+      }
+    }
+  </style>
+    <script src="tracking.js?v=20260609-mvt1"></script>
 </head>
 <body>
-    <div class="top-alert-banner">
-        Sua planta está murchando, amarelando ou com manchas? Pare de tentar no chute antes de piorar.
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>Oferta especial: Kit SOS por R$37 hoje</span>
+      <span>Antes de regar, adubar ou borrifar receita, descubra o primeiro cuidado</span>
+      <span>Acesso imediato e garantia de 7 dias</span>
+      <span>Oferta especial: Kit SOS por R$37 hoje</span>
+      <span>Antes de regar, adubar ou borrifar receita, descubra o primeiro cuidado</span>
+      <span>Acesso imediato e garantia de 7 dias</span>
     </div>
+  </div>
 
-    <header class="hero">
-        <div class="container">
-            <div class="hero-sales">
-                <div class="hero-copy-block">
-                    <span class="hero-label">Primeiros socorros para plantas em risco</span>
-                    <h1 class="headline">Descubra o primeiro cuidado antes de perder sua planta de vez.</h1>
-                    <p class="subheadline">
-                        O Kit SOS Plantas Morrendo mostra como identificar sinais comuns e escolher a primeira ação com mais segurança, sem jogar mais água, adubo ou receita caseira no desespero.
-                    </p>
-                    <div class="symptom-chips" aria-label="Sintomas comuns">
-                        <span>Folha amarela</span>
-                        <span>Planta murcha</span>
-                        <span>Manchas</span>
-                        <span>Pragas</span>
-                    </div>
-                    <div class="hero-actions single-cta">
-                        <a href="https://pay.hotmart.com/I105969372T?checkoutMode=10" class="btn-primary pulse-animation" data-checkout-source="hero">
-                            Quero salvar minha planta agora
-                        </a>
-                        <p class="btn-subtext">Acesso imediato por R$ 47. Compra segura pela Hotmart com garantia de 7 dias.</p>
-                    </div>
-                </div>
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Kit SOS Plantas Morrendo</span>
+        <h1>Antes de tentar salvar no impulso, <span class="highlight">descubra o primeiro cuidado</span>.</h1>
+      </div>
 
-                <div class="hero-product-panel">
-                    <div class="mockup-stage">
-                        <img src="assets/kit-mockup-novo.jpg" alt="Mockup do Kit SOS Plantas Morrendo" class="hero-kit-img">
-                        <div class="price-tag">
-                            <span>Hoje</span>
-                            <strong>R$ 47</strong>
-                        </div>
-                    </div>
-                    <div class="hero-proof-grid">
-                        <div><strong>Mapa SOS</strong><span>Sintoma → primeira ação</span></div>
-                        <div><strong>Checklists</strong><span>Para evitar excesso de água e adubo</span></div>
-                        <div><strong>Acesso rápido</strong><span>Abra no celular quando precisar</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="danger-strip" aria-label="Erros comuns">
-                <span>Evite água demais</span>
-                <span>Evite adubo no susto</span>
-                <span>Evite mistura forte sem diagnóstico</span>
-            </div>
+      <div class="hero-visual">
+        <div class="mockup-placeholder">
+          <img class="hero-mockup-img" src="assets/kit-sos-hero-mockup-transparent.png" alt="Mockup do Kit SOS Plantas Morrendo com celular, páginas do diagnóstico e materiais de apoio" />
         </div>
-        <div class="triangle-divider"></div>
-    </header>
+      </div>
 
-    <section class="decision-section">
-        <div class="container">
-            <p class="section-eyebrow">O que o Kit SOS resolve</p>
-            <h2 class="section-title">Ele transforma desespero em uma decisão simples de primeiros socorros.</h2>
-            <div class="diagnostic-flow">
-                <div class="flow-step">
-                    <span>01</span>
-                    <h3>Olhe o sintoma</h3>
-                    <p>Folha amarela, seca, murcha, manchada, com pontinhos ou pragas.</p>
-                </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step">
-                    <span>02</span>
-                    <h3>Evite a reação errada</h3>
-                    <p>Não regue, adube, troque de vaso ou borrife receita antes de entender o sinal.</p>
-                </div>
-                <div class="flow-arrow">→</div>
-                <div class="flow-step highlighted">
-                    <span>03</span>
-                    <h3>Escolha a primeira ação</h3>
-                    <p>Use o mapa do Kit SOS para decidir o cuidado inicial com menos chute.</p>
-                </div>
-            </div>
+      <div class="hero-action">
+        <p class="hero-lead">
+          Um diagnóstico visual de 2 minutos para decidir se sua planta precisa de água,
+          secagem, controle de praga, troca de manejo ou apenas parar de mexer.
+        </p>
+
+        <div class="hero-question">
+          <strong>Qual sinal você está vendo agora?</strong>
+          <div class="diagnostic-tabs">
+            <button class="active" type="button" data-signal="yellow">Folha amarela</button>
+            <p class="mobile-diagnostic-answer active" data-mobile-answer="yellow"></p>
+            <button type="button" data-signal="wilted">Planta murcha</button>
+            <p class="mobile-diagnostic-answer" data-mobile-answer="wilted"></p>
+            <button type="button" data-signal="spots">Manchas</button>
+            <p class="mobile-diagnostic-answer" data-mobile-answer="spots"></p>
+            <button type="button" data-signal="pests">Pragas</button>
+            <p class="mobile-diagnostic-answer" data-mobile-answer="pests"></p>
+          </div>
+          <p class="diagnostic-answer" id="diagnostic-answer">
+            Folha amarela pode ser excesso de água, falta de luz, praga ou estresse. O erro é regar de novo antes de checar.
+          </p>
         </div>
-    </section>
 
-    <section class="mistakes-section">
-        <div class="container">
-            <p class="section-eyebrow">O que mais faz a planta piorar</p>
-            <h2 class="section-title">Três tentativas comuns que parecem cuidado, mas podem virar prejuízo.</h2>
-            <div class="mistake-grid">
-                <div class="mistake-card">
-                    <h3>Água demais</h3>
-                    <p>Quando a folha murcha, muita gente rega de novo. Se a raiz já está sofrendo, isso pode piorar.</p>
-                </div>
-                <div class="mistake-card">
-                    <h3>Adubo no susto</h3>
-                    <p>Adubar uma planta frágil pode estressar ainda mais se o problema real for praga, raiz ou excesso.</p>
-                </div>
-                <div class="mistake-card">
-                    <h3>Receita caseira forte</h3>
-                    <p>Mistura no olho pode manchar, ressecar ou sufocar folhas que já estavam sensíveis.</p>
-                </div>
-            </div>
+        <div class="cta-row">
+          <a class="btn checkout-link" href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="hero">Quero meu Kit SOS</a>
+          <div class="price-pill">Hoje por <span>R$37</span></div>
         </div>
-    </section>
-
-    <section class="for-you-section">
-        <div class="container">
-            <h2 class="section-title">O Kit SOS Plantas Morrendo é para você que...</h2>
-
-            <div class="for-you-grid">
-                <div class="for-you-list">
-                    <div class="for-you-item">
-                        <div class="emoji">1</div>
-                        <p>Vê folha amarela, seca, murcha ou com praga e não sabe qual cuidado fazer primeiro.</p>
-                    </div>
-                    <div class="for-you-item">
-                        <div class="emoji">2</div>
-                        <p>Já tentou água, adubo ou receita caseira e ficou com medo de piorar a planta.</p>
-                    </div>
-                    <div class="for-you-item">
-                        <div class="emoji">3</div>
-                        <p>Quer uma orientação simples antes de gastar com veneno, mudas novas ou fazer mais uma tentativa.</p>
-                    </div>
-                </div>
-
-                <div class="for-you-image">
-                    <img src="assets/bg.png" alt="Pessoa cuidando de planta" class="sad-person-img">
-                </div>
-            </div>
+        <div class="trust-line">
+          <span>Compra única</span>
+          <span>|</span>
+          <span>Acesso imediato</span>
+          <span>|</span>
+          <span>Garantia de 7 dias</span>
         </div>
-    </section>
-
-    <section class="product-section">
-        <div class="container text-center">
-            <div class="premium-problem-card">
-                <div class="problem-icon-wrapper pulse-animation">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-                </div>
-                <div class="problem-content">
-                    <span class="problem-eyebrow">O erro caro</span>
-                    <h3>O cuidado errado pode acelerar o problema.</h3>
-                    <p>Água demais, adubo no susto, troca de vaso sem necessidade ou mistura forte podem piorar uma planta frágil. O kit não promete milagre: ele organiza a primeira decisão para você agir com mais critério.</p>
-                </div>
-            </div>
-
-            <div class="product-reveal">
-                <h1 class="product-logo">KIT SOS PLANTAS MORRENDO</h1>
-                <p class="product-subtitle">Kit de consulta para identificar sinais, escolher a primeira ação e evitar cuidados que podem piorar a planta.</p>
-                <img src="assets/kit-mockup-novo.jpg" alt="Kit SOS" class="product-hero-img" style="margin-bottom: 30px; width: 100%; max-width: 800px;">
-                <p style="font-size: 18px; color: var(--text-muted); max-width: 700px; margin: 0 auto;">Um material prático para abrir no celular quando bate a dúvida: regar, limpar, isolar, trocar de lugar, pausar ou aplicar algum cuidado caseiro.</p>
-            </div>
-
-            <h2 class="section-title" style="margin-top: 60px;">O que você recebe imediatamente</h2>
-            <div class="deliverables-stack">
-                <div class="deliverable-row"><img src="assets/entregavel-1.jpg" alt="Entregável 1" class="del-full-image"></div>
-                <div class="deliverable-row"><img src="assets/entregavel-2.jpg" alt="Entregável 2" class="del-full-image"></div>
-                <div class="deliverable-row"><img src="assets/entregavel-3.jpg" alt="Entregável 3" class="del-full-image"></div>
-                <div class="deliverable-row"><img src="assets/entregavel-4.jpg" alt="Entregável 4" class="del-full-image"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="offer" class="offer-section">
-        <div class="container text-center">
-            <div class="offer-card">
-                <div class="quiz-result-note">
-                    <strong>Antes de agir:</strong> se a planta está piorando, o risco é tentar resolver no chute. O próximo passo é consultar o mapa antes de colocar mais água, adubo ou mistura.
-                </div>
-
-                <h2 class="offer-headline">Leve o Kit SOS antes de tentar mais uma solução no escuro.</h2>
-                <p class="offer-desc">Kit SOS Plantas Morrendo com mapa de diagnóstico, checklist de primeiros cuidados, mapa de pragas, tabela de diluição e sinais de quando parar.</p>
-
-                <div class="price-box">
-                    <p class="old-price">De R$ 97 por apenas</p>
-                    <div class="new-price">R$ 47</div>
-                    <p class="installments">Ou 5x de R$ 10,11</p>
-                </div>
-
-                <div class="checkout-reassurance">
-                    <div><strong>Entrega:</strong> Kit de consulta com acesso imediato no celular.</div>
-                    <div><strong>Pagamento:</strong> compra única, sem assinatura.</div>
-                    <div><strong>Risco:</strong> garantia de 7 dias pela Hotmart.</div>
-                </div>
-
-                <a href="https://pay.hotmart.com/I105969372T?checkoutMode=10" class="btn-primary large pulse-animation" style="width: 100%; max-width: 100%;" data-checkout-source="offer_card">
-                    ACESSAR O KIT SOS AGORA
-                </a>
-
-                <p class="btn-subtext" style="color: #666; margin-top: 15px;">Compra segura pela Hotmart</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container text-center">
-            <p>Kit SOS Plantas Morrendo © 2026 - Todos os direitos reservados</p>
-        </div>
-    </footer>
-
-    <div class="sticky-cta" aria-hidden="true">
-        <div>
-            <strong>Kit SOS Plantas Morrendo</strong>
-            <span>Kit de consulta por R$ 47</span>
-        </div>
-        <a href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="sticky_cta">Comprar agora</a>
+      </div>
     </div>
-    <script>
-        window.addEventListener('scroll', function () {
-            document.body.classList.toggle('show-sticky', window.scrollY > 620);
-        });
-    </script>
+  </header>
+
+  <section class="proof deliverables">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="tag">Veja o que você vai receber</div>
+        <h2>O Kit SOS por dentro.</h2>
+        <p>Veja uma prévia dos materiais que ajudam você a decidir o primeiro cuidado com mais segurança.</p>
+      </div>
+      <div class="deliver-grid">
+        <article class="deliver">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-preview-diagnostico.png" alt="Página do Diagnóstico SOS" />
+          </div>
+          <div class="body">
+            <h3>Diagnóstico SOS de 2 minutos</h3>
+            <p>Uma sequência simples para observar sintoma, terra, luz, umidade e mudança recente.</p>
+          </div>
+        </article>
+        <article class="deliver">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-preview-mapa-acao.png" alt="Mapa de primeira ação do Kit SOS" />
+          </div>
+          <div class="body">
+            <h3>Mapa O Que Fazer Primeiro</h3>
+            <p>Mostra o primeiro caminho provável: regar, secar, isolar praga, ajustar manejo ou pausar.</p>
+          </div>
+        </article>
+        <article class="deliver">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-preview-checklist.png" alt="Checklist Pode e Não Pode do Kit SOS" />
+          </div>
+          <div class="body">
+            <h3>Checklist Pode / Não Pode</h3>
+            <p>Ajuda a evitar decisões que costumam piorar plantas já fragilizadas.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="pain">
+    <div class="wrap pain-grid">
+      <div class="pain-card">
+        <h2>Eu sei... dá vontade de agir rápido.</h2>
+        <p>
+          Quando a planta começa a amarelar, murchar ou manchar, o impulso é jogar água,
+          adubar, trocar de vaso ou buscar uma receita caseira.
+        </p>
+        <p>
+          Só que o cuidado errado pode atrasar a recuperação e piorar exatamente o problema que você queria resolver.
+        </p>
+      </div>
+      <div class="thoughts">
+        <div class="thought">
+          <strong>"Será que é falta de água?"</strong>
+          <p>Às vezes é o contrário: a raiz já está sofrendo com excesso de umidade.</p>
+        </div>
+        <div class="thought">
+          <strong>"Vou colocar adubo para fortalecer."</strong>
+          <p>Adubo no momento errado pode estressar ainda mais uma planta fraca.</p>
+        </div>
+        <div class="thought">
+          <strong>"Vi uma receita caseira, vou testar."</strong>
+          <p>Receita forte sem diagnóstico pode queimar folha, espalhar praga ou mascarar o problema.</p>
+        </div>
+        <div class="thought">
+          <strong>"E se eu perder essa planta?"</strong>
+          <p>Antes de desistir, vale saber se ainda existe uma primeira ação simples e segura.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="yes-block">
+    <div class="wrap">
+      <h2>Se você pudesse abrir um guia rápido e saber o que observar primeiro, usaria antes de mexer na planta?</h2>
+      <p>
+        Se a resposta é sim, o Kit SOS Plantas Morrendo foi criado para esse momento:
+        quando você precisa decidir o primeiro cuidado sem ficar no chute.
+      </p>
+      <a class="btn checkout-link" href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="yes">Quero acessar agora</a>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="tag">Com o Kit SOS você vai</div>
+        <h2>Trocar tentativa no susto por decisão guiada.</h2>
+      </div>
+      <div class="benefit-grid">
+        <article class="benefit">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-benefit-folha-amarela.png" alt="Folha amarela em planta dentro de casa" />
+          </div>
+          <div class="body">
+            <h3>Entender o sintoma</h3>
+            <p>Folha amarela, murcha, manchas e pragas pedem checagens diferentes antes da ação.</p>
+          </div>
+        </article>
+        <article class="benefit">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-benefit-pausar-rega.png" alt="Pessoa pausando a rega antes de diagnosticar a planta" />
+          </div>
+          <div class="body">
+            <h3>Evitar o erro comum</h3>
+            <p>Menos água demais, adubo fora de hora, receita forte e troca de vaso sem necessidade.</p>
+          </div>
+        </article>
+        <article class="benefit">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-benefit-diagnostico-celular.png" alt="Diagnóstico da planta aberto no celular" />
+          </div>
+          <div class="body">
+            <h3>Agir com critério</h3>
+            <p>Você escolhe entre regar, secar, isolar praga, ajustar ambiente ou observar.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="more">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="tag">Ainda não acabou</div>
+        <h2>Você também recebe bônus de consulta rápida.</h2>
+        <p>Além do diagnóstico, você recebe mapas e checklists para evitar excesso de água, identificar pragas e acompanhar a recuperação sem agir no impulso.</p>
+      </div>
+      <div class="bonus-grid">
+        <article class="bonus">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-bonus-plano-7-dias.png" alt="Plano de recuperação de 7 dias do Kit SOS" />
+          </div>
+          <div class="body">
+            <h3>Plano de Recuperação de 7 Dias</h3>
+            <p>Para acompanhar a resposta da planta sem mexer demais todos os dias.</p>
+          </div>
+        </article>
+        <article class="bonus">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-bonus-tabela-diluicao.png" alt="Tabela de diluição segura do Kit SOS" />
+          </div>
+          <div class="body">
+            <h3>Tabela de Diluição Segura</h3>
+            <p>Para evitar medida no olho e aplicação forte demais quando algum produto for necessário.</p>
+          </div>
+        </article>
+        <article class="bonus">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-bonus-mapa-pragas.png" alt="Mini mapa de pragas do Kit SOS" />
+          </div>
+          <div class="body">
+            <h3>Mini Mapa de Pragas</h3>
+            <p>Ajuda a reconhecer sinais antes de tratar todo problema como falta de água.</p>
+          </div>
+        </article>
+        <article class="bonus">
+          <div class="mini-placeholder has-image">
+            <img src="assets/kit-sos-bonus-alertas-risco.png" alt="Alertas de risco para uso seguro do Kit SOS" />
+          </div>
+          <div class="body">
+            <h3>Alertas de Quando Parar</h3>
+            <p>Mostra quando o caso pode exigir ajuda profissional ou isolamento da planta.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="who">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="tag">É para você que</div>
+        <h2>Quer salvar tempo, dinheiro e evitar cuidado errado.</h2>
+      </div>
+      <div class="who-list">
+        <div class="who-item">Está vendo folha amarela e não sabe se deve regar mais ou parar.</div>
+        <div class="who-item">Tem planta murcha e já tentou água, adubo ou troca de lugar sem clareza.</div>
+        <div class="who-item">Viu manchas ou pragas e ficou tentado a aplicar receita caseira.</div>
+        <div class="who-item">Quer um guia rápido para consultar antes de fazer besteira.</div>
+        <div class="who-item">Não quer assistir aula longa só para decidir o primeiro cuidado.</div>
+        <div class="who-item">Quer acesso imediato no celular para usar quando a planta der sinal.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="offer" id="oferta">
+    <div class="wrap offer-box">
+      <div>
+        <h2>Recapitulando: tudo que você recebe no Kit SOS.</h2>
+        <div class="value-stack">
+          <div class="value-row"><span>Diagnóstico SOS de 2 minutos</span><strong>R$37</strong></div>
+          <div class="value-row"><span>Mapa O Que Fazer Primeiro</span><strong>R$37</strong></div>
+          <div class="value-row"><span>Checklist Pode / Não Pode</span><strong>R$29</strong></div>
+          <div class="value-row"><span>Plano de Recuperação de 7 Dias</span><strong>R$29</strong></div>
+          <div class="value-row"><span>Tabela de Diluição Segura</span><strong>R$27</strong></div>
+          <div class="value-row"><span>Mini Mapa de Pragas</span><strong>R$27</strong></div>
+        </div>
+      </div>
+      <div class="offer-card">
+        <span class="approved">Oferta especial</span>
+        <div class="image-placeholder has-image">
+          <img src="assets/kit-sos-offer-mockup-transparent.png" alt="Mockup final do Kit SOS Plantas Morrendo com módulos e bônus" />
+        </div>
+        <div class="price">
+          <small>De R$196 por</small>
+          <strong>R$37</strong>
+        </div>
+        <a class="btn checkout-link" href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="offer">Quero meu Kit SOS</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="access">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="tag">Como recebe</div>
+        <h2>Compra simples, acesso imediato.</h2>
+      </div>
+      <div class="access-grid">
+        <article class="access-card">
+          <div class="num">1</div>
+          <h3>Faça sua compra</h3>
+          <p>Você conclui o pagamento em ambiente seguro.</p>
+        </article>
+        <article class="access-card">
+          <div class="num">2</div>
+          <h3>Receba no e-mail</h3>
+          <p>O acesso chega no e-mail usado na compra, em poucos minutos.</p>
+        </article>
+        <article class="access-card">
+          <div class="num">3</div>
+          <h3>Abra quando precisar</h3>
+          <p>Use o guia no celular sempre que a planta mostrar um sinal.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="choices">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="tag">Agora você tem duas opções</div>
+        <h2>Continuar no chute ou decidir com um mapa simples.</h2>
+      </div>
+      <div class="choice-grid">
+        <article class="choice-card bad">
+          <h3>Opção 1</h3>
+          <p>Continuar regando, adubando ou testando receitas sem saber se essa é a primeira ação correta.</p>
+        </article>
+        <article class="choice-card good">
+          <h3>Opção 2</h3>
+          <p>Investir R$37 e abrir um guia rápido para entender o sintoma antes de piorar a planta.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="offer">
+    <div class="wrap offer-box">
+      <div>
+        <h2>A opção mais segura é decidir antes de agir.</h2>
+        <p>O Kit SOS não promete milagre. Ele te ajuda a evitar o cuidado errado no momento em que você mais quer resolver rápido.</p>
+      </div>
+      <div class="offer-card">
+        <span class="approved">Acesso imediato</span>
+        <div class="price">
+          <small>Oferta especial</small>
+          <strong>R$37</strong>
+        </div>
+        <a class="btn checkout-link" href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="final">Acessar agora</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-note">
+    <div class="wrap">
+      Este material não garante recuperação de toda planta. Casos graves de raiz comprometida,
+      infestação severa, fungo avançado ou risco à saúde podem exigir ajuda profissional.
+      Compra com acesso imediato e garantia de 7 dias.
+    </div>
+  </footer>
+
+  <div class="sticky">
+    <div>
+      <strong>Kit SOS Plantas Morrendo</strong>
+      <small>Diagnóstico SOS de 2 minutos por R$37</small>
+    </div>
+    <a class="btn checkout-link" href="https://pay.hotmart.com/I105969372T?checkoutMode=10" data-checkout-source="sticky">Comprar agora</a>
+  </div>
+
+  <div class="purchase-pop" id="purchase-pop" aria-live="polite" hidden>
+    <div class="purchase-icon">✓</div>
+    <div class="purchase-copy">
+      <strong id="purchase-pop-title">Compra realizada</strong>
+      <span id="purchase-pop-text">Kit SOS Plantas Morrendo</span>
+    </div>
+    <button class="purchase-close" type="button" aria-label="Fechar aviso de compra">×</button>
+  </div>
+
+  <script>
+    const answers = {
+      yellow: 'Folha amarela pode ser excesso de água, falta de luz, praga ou estresse. O erro é regar de novo antes de checar.',
+      wilted: 'Planta murcha pode ser sede real, raiz sufocada, calor, solo compactado ou excesso de cuidado. O guia ajuda a separar os sinais.',
+      spots: 'Manchas podem vir de fungo, sol, praga, produto forte ou excesso de umidade. Antes de borrifar, observe o padrão.',
+      pests: 'Quando há praga, o primeiro passo pode ser isolar, limpar, observar ou tratar. O risco é espalhar antes de identificar.'
+    };
+
+    document.querySelectorAll('[data-mobile-answer]').forEach((answer) => {
+      answer.textContent = answers[answer.dataset.mobileAnswer];
+    });
+
+    document.querySelectorAll('[data-signal]').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-signal]').forEach((item) => item.classList.remove('active'));
+        document.querySelectorAll('[data-mobile-answer]').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        document.querySelector(`[data-mobile-answer="${button.dataset.signal}"]`)?.classList.add('active');
+        document.getElementById('diagnostic-answer').textContent = answers[button.dataset.signal];
+        window.dispatchEvent(new CustomEvent('kit-sos-event', {
+          detail: {
+            eventName: 'ViewContent',
+            payload: { content_name: 'signal_' + button.dataset.signal },
+            at: new Date().toISOString()
+          }
+        }));
+      });
+    });
+
+    const purchasePopup = document.getElementById('purchase-pop');
+    const purchaseTitle = document.getElementById('purchase-pop-title');
+    const purchaseText = document.getElementById('purchase-pop-text');
+    const purchaseClose = purchasePopup?.querySelector('.purchase-close');
+    const isLocalPreview = window.location.protocol === 'file:';
+    const realPurchaseEvents = Array.isArray(window.KIT_SOS_PURCHASE_EVENTS)
+      ? window.KIT_SOS_PURCHASE_EVENTS
+      : [];
+    const previewPurchaseEvents = [
+      { name: 'Ana', city: 'Campinas', state: 'SP', product: 'Kit SOS Plantas Morrendo' },
+      { name: 'Mariana', city: 'Curitiba', state: 'PR', product: 'Kit SOS Plantas Morrendo' },
+      { name: 'Patrícia', city: 'Belo Horizonte', state: 'MG', product: 'Kit SOS Plantas Morrendo' },
+      { name: 'Juliana', city: 'Salvador', state: 'BA', product: 'Kit SOS Plantas Morrendo' },
+      { name: 'Renata', city: 'Recife', state: 'PE', product: 'Kit SOS Plantas Morrendo' }
+    ];
+    const purchaseEvents = realPurchaseEvents.length ? realPurchaseEvents : (isLocalPreview ? previewPurchaseEvents : []);
+    let purchaseIndex = 0;
+    let purchaseTimer;
+
+    function showPurchasePopup() {
+      if (!purchasePopup || !purchaseEvents.length) return;
+      const purchase = purchaseEvents[purchaseIndex % purchaseEvents.length];
+      purchaseTitle.textContent = `${purchase.name} de ${purchase.city}/${purchase.state}`;
+      purchaseText.textContent = `acabou de comprar ${purchase.product || 'Kit SOS Plantas Morrendo'}`;
+      purchasePopup.hidden = false;
+      requestAnimationFrame(() => purchasePopup.classList.add('show'));
+      window.clearTimeout(purchaseTimer);
+      purchaseTimer = window.setTimeout(() => {
+        purchasePopup.classList.remove('show');
+      }, 5600);
+      purchaseIndex += 1;
+    }
+
+    purchasePopup?.addEventListener('transitionend', () => {
+      if (!purchasePopup.classList.contains('show')) {
+        purchasePopup.hidden = true;
+      }
+    });
+
+    purchaseClose?.addEventListener('click', () => {
+      window.clearTimeout(purchaseTimer);
+      purchasePopup.classList.remove('show');
+      window.sessionStorage.setItem('kit_sos_purchase_pop_closed', '1');
+    });
+
+    if (purchaseEvents.length && window.sessionStorage.getItem('kit_sos_purchase_pop_closed') !== '1') {
+      window.setTimeout(showPurchasePopup, 4200);
+      window.setInterval(showPurchasePopup, 22000);
+    }
+
+    window.dispatchEvent(new CustomEvent('kit-sos-event', {
+      detail: {
+        eventName: 'ViewContent',
+        payload: {
+          content_name: 'Kit SOS Plantas Morrendo - Firecrawl MVT Adapted',
+          value: 37,
+          currency: 'BRL'
+        },
+        at: new Date().toISOString()
+      }
+    }));
+  </script>
 </body>
 </html>
