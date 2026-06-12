@@ -1,4 +1,4 @@
-const META_PIXEL_ID = '1805622896407631';
+﻿const META_PIXEL_ID = '1805622896407631';
 const TRACKING_API_URL = 'https://setoe-tracking-production.up.railway.app/api/meta/events';
 const CHECKOUT_URL = 'https://pay.hotmart.com/I105969372T?checkoutMode=10';
 const PRODUCT_ID = '7801051';
@@ -7,7 +7,16 @@ const CURRENCY = 'BRL';
 const STANDARD_EVENT_DEDUPE_MS = 1500;
 const EXTERNAL_ID_KEY = 'kitsos_external_id';
 const EXTERNAL_ID_COOKIE = '_kitsos_eid';
+const TRAFFIC_SESSION_KEY = 'kitsos_traffic_session_id';
 const recentStandardEvents = new Map();
+const trafficQualityState = {
+  landingAt: Date.now(),
+  maxScrollPercent: 0,
+  interactionCount: 0,
+  checkoutIntentCount: 0,
+  visibilityChanges: 0,
+  sessionId: getOrCreateTrafficSessionId(),
+};
 
 function initMetaPixel() {
   if (window.fbq) return;
@@ -183,6 +192,7 @@ function sendServerEvent(eventName, payload, eventId) {
     currency: serverPayload.currency,
     contentName: serverPayload.contentName,
     contentIds: serverPayload.contentIds,
+    trafficQuality: getTrafficQualitySignal(),
   };
 
   const serialized = JSON.stringify(body);
@@ -251,6 +261,7 @@ function buildTrackedCheckoutUrl(baseUrl) {
 let lastCheckoutIntentAt = 0;
 
 function trackCheckoutIntent(source = 'checkout_cta', options = {}) {
+  registerCheckoutIntent();
   const now = Date.now();
   const shouldTrackStandardIntent = now - lastCheckoutIntentAt >= STANDARD_EVENT_DEDUPE_MS;
 
@@ -335,8 +346,10 @@ window.trackQuizComplete = function (afterTrack) {
 initMetaPixel();
 
 document.addEventListener('DOMContentLoaded', () => {
+  initTrafficQualitySensors();
   trackViewContent();
   prepareCheckoutLinks();
   interceptCheckoutClicks();
   trackCheckoutHoverIntent();
 });
+
