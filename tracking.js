@@ -18,6 +18,74 @@ const trafficQualityState = {
   sessionId: getOrCreateTrafficSessionId(),
 };
 
+function getOrCreateTrafficSessionId() {
+  let sessionId = '';
+
+  try {
+    sessionId = window.sessionStorage.getItem(TRAFFIC_SESSION_KEY) || '';
+  } catch (_) {
+    sessionId = '';
+  }
+
+  if (!sessionId) {
+    const randomPart = window.crypto && window.crypto.randomUUID
+      ? window.crypto.randomUUID()
+      : Math.random().toString(36).slice(2) + Date.now().toString(36);
+    sessionId = 'kitsos-session-' + randomPart;
+  }
+
+  try {
+    window.sessionStorage.setItem(TRAFFIC_SESSION_KEY, sessionId);
+  } catch (_) {}
+
+  return sessionId;
+}
+
+function initTrafficQualitySensors() {
+  const updateScrollDepth = () => {
+    const doc = document.documentElement;
+    const body = document.body;
+    const scrollTop = window.scrollY || doc.scrollTop || body.scrollTop || 0;
+    const scrollable = Math.max(1, (doc.scrollHeight || body.scrollHeight || 0) - window.innerHeight);
+    const percent = Math.max(0, Math.min(100, Math.round((scrollTop / scrollable) * 100)));
+    trafficQualityState.maxScrollPercent = Math.max(trafficQualityState.maxScrollPercent, percent);
+  };
+
+  updateScrollDepth();
+  window.addEventListener('scroll', updateScrollDepth, { passive: true });
+  window.addEventListener('pointerdown', () => {
+    trafficQualityState.interactionCount += 1;
+  }, { passive: true });
+  window.addEventListener('keydown', () => {
+    trafficQualityState.interactionCount += 1;
+  }, { passive: true });
+  document.addEventListener('visibilitychange', () => {
+    trafficQualityState.visibilityChanges += 1;
+  });
+}
+
+function registerCheckoutIntent() {
+  trafficQualityState.checkoutIntentCount += 1;
+  trafficQualityState.interactionCount += 1;
+}
+
+function getTrafficQualitySignal() {
+  return {
+    ...trafficQualityState,
+    timeOnPageMs: Date.now() - trafficQualityState.landingAt,
+    pageHidden: document.hidden,
+    hasFocus: document.hasFocus ? document.hasFocus() : undefined,
+    language: navigator.language || '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+    screenWidth: window.screen ? window.screen.width : window.innerWidth,
+    screenHeight: window.screen ? window.screen.height : window.innerHeight,
+    colorDepth: window.screen ? window.screen.colorDepth : undefined,
+    devicePixelRatio: window.devicePixelRatio || 1,
+    referrer: document.referrer || '',
+    hasJavascript: true,
+  };
+}
+
 function initMetaPixel() {
   if (window.fbq) return;
 
@@ -38,7 +106,7 @@ function initMetaPixel() {
     s.parentNode.insertBefore(t, s);
   })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-  fbq('init', META_PIXEL_ID, {
+  window.fbq('init', META_PIXEL_ID, {
     external_id: getOrCreateExternalId(),
   });
   trackStandardEvent('PageView', {
@@ -56,13 +124,13 @@ function trackStandardEvent(eventName, payload = {}) {
   if (!hasFbq()) return;
   if (wasStandardEventRecentlyTracked(eventName, payload)) return;
   const eventId = buildEventId(eventName);
-  fbq('track', eventName, payload, { eventID: eventId });
+  window.fbq('track', eventName, payload, { eventID: eventId });
   sendServerEvent(eventName, payload, eventId);
 }
 
 function trackCustomEvent(eventName, payload = {}) {
   if (!hasFbq()) return;
-  fbq('trackCustom', eventName, payload);
+  window.fbq('trackCustom', eventName, payload);
 }
 
 function commonPayload(extra = {}) {
